@@ -1,0 +1,110 @@
+---
+#define a port profile to be inherited in the endpoint configuration ie default vlans or common configs that are applied to muliple ports in a single "profile"
+port_profiles:
+#define profile for server with vlan 84
+  oobm_if:
+    mode: access
+    vlans: "100"
+    #spanning_tree_portfast: edge
+    raw_eos_cli: |
+      no snmp trap link-change
+
+bc_oobm_devices:
+  cvp_server_oobm1:
+    rack: R2                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet15 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+  cvp_server_oobm2:
+    rack: R2                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet15 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+  data_server_R2_1:
+    rack: R2                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet3, Ethernet3 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1, BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-oobm            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+  data_server_R2_2:
+    rack: R2                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet4, Ethernet4 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1, BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-oobm            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+  data_server_R3_1:
+    rack: R3                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet5, Ethernet5 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1, BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-oobm            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+  data_server_R3_2:
+    rack: R3                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet6, Ethernet6 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1, BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-oobm            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+  storage_server_R4_1:
+    rack: R4                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet7, Ethernet7 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1, BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-oobm            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+  storage_server_R4_2:
+    rack: R4                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet8, Ethernet8 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1, BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-oobm            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+  storage_server_R5_1:
+    rack: R5                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet9, Ethernet9 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-OOBM1, BC-OOBM2 ]       #this is to identify on which switches to apply this configuration
+        profile: oobm_if
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-oobm            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints

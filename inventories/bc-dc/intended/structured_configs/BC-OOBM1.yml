@@ -1,0 +1,318 @@
+static_routes:
+- vrf: default
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 172.20.20.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+daemon_terminattr:
+  cvaddrs:
+  - 172.20.21.10:9910
+  cvauth:
+    method: key
+    key: arista
+  cvvrf: default
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  disable_aaa: false
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+spanning_tree:
+  mode: mstp
+  mst_instances:
+    '0':
+      priority: 4096
+  no_spanning_tree_vlan: 4094
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$LJcUms0WZ9UyskIF$b6jUZMJmruk95uA0GPood4z4Tgb2aHKqnRhm7HyHl3kjsgE6mA5.V3W/vwl16WeICFvWWz1vkU1zQET0CbILG0
+  cvpadmin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$pWE0vYbIJTmV0ZWc$nIrbLNYS3pIgpFj9vuzkchwyA19betlJZjWR.KE95GHwOALliiUUAu92JUWg9jQ12Yd3.aTQmWf.gRe2VNo2Y.
+clock:
+  timezone: America/Toronto
+vrfs:
+  default:
+    ip_routing: false
+management_interfaces:
+  vlan100:
+    description: oob_management
+    shutdown: false
+    vrf: default
+    ip_address: 172.20.21.13/23
+    gateway: 172.20.20.1
+    type: oob
+management_api_http:
+  enable_vrfs:
+    default: {}
+  enable_https: true
+eos_cli: 'vlan 100
+
+  '
+vlans:
+  4094:
+    tenant: system
+    name: MLAG_PEER
+    trunk_groups:
+    - MLAG
+vlan_interfaces:
+  Vlan4094:
+    description: MLAG_PEER
+    shutdown: false
+    ip_address: 10.255.252.0/31
+    no_autostate: true
+    mtu: 1500
+port_channel_interfaces:
+  Port-Channel16:
+    description: MLAG_PEER_BC-OOBM2_Po16
+    type: switched
+    shutdown: false
+    vlans: 2-4094
+    mode: trunk
+    trunk_groups:
+    - MLAG
+  Port-Channel3:
+    description: data_server_R2_1_portchannel-oobm
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 3
+  Port-Channel4:
+    description: data_server_R2_2_portchannel-oobm
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 4
+  Port-Channel5:
+    description: data_server_R3_1_portchannel-oobm
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 5
+  Port-Channel6:
+    description: data_server_R3_2_portchannel-oobm
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 6
+  Port-Channel7:
+    description: storage_server_R4_1_portchannel-oobm
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 7
+  Port-Channel8:
+    description: storage_server_R4_2_portchannel-oobm
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 8
+  Port-Channel9:
+    description: storage_server_R5_1_portchannel-oobm
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 9
+  Port-Channel1:
+    description: BC-CORE-PAN-FW-OOBM-01_PortChannel-oobm-FW01
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 1
+  Port-Channel2:
+    description: BC-CORE-PAN-FW-OOBM-02_PortChannel-oobm-FW02
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    mlag: 2
+ethernet_interfaces:
+  Ethernet16:
+    peer: BC-OOBM2
+    peer_interface: Ethernet16
+    peer_type: mlag_peer
+    description: MLAG_PEER_BC-OOBM2_Ethernet16
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 16
+      mode: active
+  Ethernet17:
+    peer: BC-OOBM2
+    peer_interface: Ethernet17
+    peer_type: mlag_peer
+    description: MLAG_PEER_BC-OOBM2_Ethernet17
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 16
+      mode: active
+  Ethernet15:
+    peer: cvp_server_oobm1
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: cvp_server_oobm1_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet3:
+    peer: data_server_R2_1
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: data_server_R2_1_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 3
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet4:
+    peer: data_server_R2_2
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: data_server_R2_2_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 4
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet5:
+    peer: data_server_R3_1
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: data_server_R3_1_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 5
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet6:
+    peer: data_server_R3_2
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: data_server_R3_2_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 6
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet7:
+    peer: storage_server_R4_1
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: storage_server_R4_1_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 7
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet8:
+    peer: storage_server_R4_2
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: storage_server_R4_2_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 8
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet9:
+    peer: storage_server_R5_1
+    peer_interface: Eth1
+    peer_type: oobm_devices
+    description: storage_server_R5_1_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 9
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet1:
+    peer: BC-CORE-PAN-FW-OOBM-01
+    peer_interface: Eth10
+    peer_type: oobm_firewall
+    description: BC-CORE-PAN-FW-OOBM-01_Eth10
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 1
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet2:
+    peer: BC-CORE-PAN-FW-OOBM-02
+    peer_interface: Eth1
+    peer_type: oobm_firewall
+    description: BC-CORE-PAN-FW-OOBM-02_Eth1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 100
+    channel_group:
+      id: 2
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+mlag_configuration:
+  domain_id: BC_OOBM
+  local_interface: Vlan4094
+  peer_address: 10.255.252.1
+  peer_link: Port-Channel16
+  reload_delay_mlag: 300
+  reload_delay_non_mlag: 330
+ip_igmp_snooping:
+  globally_enabled: true

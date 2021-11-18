@@ -1,0 +1,45 @@
+Interface                      Status         Protocol           Description
+Et1                            up             up                 P2P_LINK_TO_BC-SPINE1_Ethernet5
+Et2                            up             up                 P2P_LINK_TO_BC-SPINE2_Ethernet5
+Et3                            up             up                 data_server_1_Eth3
+Et4                            up             up                 data_server_1_Eth5
+Et5                            up             up                 data_server_2_Eth3
+Et6                            up             up                 data_server_2_Eth5
+Et7                            up             up                 
+Et8                            up             up                 
+Et9                            up             up                 
+Et10                           up             up                 
+Et11                           up             up                 
+Et12                           up             up                 MLAG_PEER_BC-DATALEAF6_Ethernet12
+Et13                           up             up                 MLAG_PEER_BC-DATALEAF6_Ethernet13
+Lo0                            up             up                 EVPN_Overlay_Peering
+Lo1                            up             up                 VTEP_VXLAN_Tunnel_Source
+Lo100                          up             up                 BC_BLUE_ZONE_A_VTEP_DIAGNOSTICS
+Ma1                            up             up                 oob_management
+Po3                            down           lowerlayerdown     data_server_1_portchannel-tenant_blue_zoneA
+Po4                            down           lowerlayerdown     data_server_1_portchannel-tenant_blue_zoneB
+Po5                            down           lowerlayerdown     data_server_2_portchannel-tenant_blue_zoneA
+Po6                            down           lowerlayerdown     data_server_2_portchannel-tenant_blue_zoneB
+Po12                           up             up                 MLAG_PEER_BC-DATALEAF6_Po12
+Vl110                          up             up                 BC_BLUE_ZONE_A_1
+Vl111                          up             up                 BC_BLUE_ZONE_A_2
+Vl112                          up             up                 BC_BLUE_ZONE_A_3
+Vl120                          up             up                 BC_BLUE_ZONE_B_1
+Vl121                          up             up                 BC_BLUE_ZONE_B_2
+Vl210                          up             up                 BC_RED_ZONE_A_1
+Vl211                          up             up                 BC_RED_ZONE_A_2
+Vl250                          up             up                 BC_RED_ZONE_B_1
+Vl251                          up             up                 BC_RED_ZONE_B_2
+Vl1190                         up             up                 
+Vl1191                         up             up                 
+Vl1192                         up             up                 
+Vl1193                         up             up                 
+Vl1194                         up             up                 
+Vl1195                         up             up                 
+Vl3009                         up             up                 MLAG_PEER_L3_iBGP: vrf BC_BLUE_ZONE_A
+Vl3010                         up             up                 MLAG_PEER_L3_iBGP: vrf BC_BLUE_ZONE_B
+Vl3019                         up             up                 MLAG_PEER_L3_iBGP: vrf BC_RED_ZONE_A
+Vl3020                         up             up                 MLAG_PEER_L3_iBGP: vrf BC_RED_ZONE_B
+Vl4093                         up             up                 MLAG_PEER_L3_PEERING
+Vl4094                         up             up                 MLAG_PEER
+Vx1                            up             up                 BC-DATALEAF5_VTEP

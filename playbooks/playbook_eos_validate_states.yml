@@ -1,0 +1,13 @@
+- name: "Run Fabric states validation"
+  hosts: BC_FABRIC_1
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+    - arista.cvp
+  tasks:
+    - name: Validate fabric states
+      import_role:
+        name: arista.avd.eos_validate_state
+      vars:
+        eos_validate_state_validation_mode_loose: true

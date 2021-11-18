@@ -1,0 +1,27 @@
+Address 
+Interface       IP Address           Status     Protocol         MTU    Owner   
+--------------- -------------------- ---------- ------------ ---------- ------- 
+Ethernet1       172.31.255.29/31     up         up              1500            
+Ethernet2       172.31.255.31/31     up         up              1500            
+Ethernet7       unassigned           up         up              1500            
+Ethernet8       unassigned           up         up              1500            
+Ethernet9       unassigned           up         up              1500            
+Ethernet10      unassigned           up         up              1500            
+Ethernet11      unassigned           up         up              1500            
+Loopback0       10.200.1.8/32        up         up             65535            
+Loopback1       192.168.254.7/32     up         up             65535            
+Management1     172.20.21.112/23     up         up              1500            
+Vlan310         10.3.10.1/24         up         up              1500            
+Vlan311         10.3.11.1/24         up         up              1500            
+Vlan350         10.3.50.1/24         up         up              1500            
+Vlan351         10.3.51.1/24         up         up              1500            
+Vlan1192        unassigned           up         up              9164            
+Vlan1193        unassigned           up         up              9164            
+Vlan1194        unassigned           up         up              9164            
+Vlan1195        unassigned           up         up              9164            
+Vlan1196        unassigned           up         up              9164            
+Vlan1197        unassigned           up         up              9164            
+Vlan3029        10.255.251.13/31     up         up              1500            
+Vlan3030        10.255.251.13/31     up         up              1500            
+Vlan4093        10.255.251.13/31     up         up              1500            
+Vlan4094        10.255.252.13/31     up         up              1500

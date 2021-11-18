@@ -1,0 +1,46 @@
+---
+bc_servers_rack2:
+
+  data_server_1:
+    rack: R2                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth3, Eth4 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet3, Ethernet3 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-DATALEAF3, BC-DATALEAF4 ]       #this is to identify on which switches to apply this configuration
+        profile: data_server_tenant_blue_zoneA
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-tenant_blue_zoneA            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+      - endpoint_ports: [ Eth5, Eth6 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet4, Ethernet4 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-DATALEAF3, BC-DATALEAF4 ]       #this is to identify on which switches to apply this configuration
+        profile: data_server_tenant_blue_zoneb
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-tenant_blue_zoneB            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+
+  data_server_2:
+    rack: R2                                         #This is used for Documentation
+    adapters:
+      - endpoint_ports: [ Eth3, Eth4 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet5, Ethernet5 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-DATALEAF3, BC-DATALEAF4 ]       #this is to identify on which switches to apply this configuration
+        profile: data_server_tenant_blue_zoneA
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-tenant_blue_zoneA            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints
+      - endpoint_ports: [ Eth5, Eth6 ]                   #this field are for the interfaces on the server side used in Interface Description [Port1->switchA, Port2->switchB]
+        switch_ports: [ Ethernet6, Ethernet6 ]     #this is to identify the switch ports that are used to connect to the server [switchA, switchB]
+        switches: [ BC-DATALEAF3, BC-DATALEAF4 ]       #this is to identify on which switches to apply this configuration
+        profile: data_server_tenant_blue_zoneb
+        port_channel:                                    #port channel definintions Port channel number is auto-derived from switch port# ie po481 = eth48/1
+          state: present
+          description: portchannel-tenant_blue_zoneB            #description of port-channel, applied to both switches
+          mode: active                                   #active/passive/on
+          #additional fields such as lacp_fallback can be found on avd.sh under connected-endpoints

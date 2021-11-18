@@ -1,0 +1,47 @@
+---
+- name: Manage Arista EOS EVPN/VXLAN Configuration
+  hosts: BC_DC
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+    - arista.cvp
+  tasks:
+
+    - name: generate intended variables
+      tags: [build, generate]
+      import_role:
+        name: eos_designs
+
+    - name: generate device intended config and documentation
+      tags: [build, generate]
+      import_role:
+        name: eos_cli_config_gen
+
+# - name: Validate DC Fabric configuration with Batfish
+#   hosts: localhost
+#   connection: local
+#   roles:
+#     - batfish.base
+
+#   vars:
+#     snapshot: BC-target
+#     network: BC
+#   tasks:
+
+#     - name: Pre Deployment fabric validation with Batfish
+#       tags: [build, provision]
+#       import_role:
+#          name: eos_pre_deploy_validation
+
+- name: Configuration deployment with CVP
+  hosts: CVP-SERVER
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+    - arista.cvp
+  tasks:
+    - name: run CVP provisioning
+      import_role:
+        name: arista.avd.eos_config_deploy_cvp

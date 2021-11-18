@@ -1,0 +1,10 @@
+Last table change time   : 0:33:14 ago
+Number of table inserts  : 2
+Number of table deletes  : 0
+Number of table drops    : 0
+Number of table age-outs : 0
+
+Port          Neighbor Device ID           Neighbor Port ID    TTL 
+---------- ---------------------------- ---------------------- --- 
+Et16          BC-OOBM1.tudareslab.io       Ethernet16          120 
+Et17          BC-OOBM1.tudareslab.io       Ethernet17          120

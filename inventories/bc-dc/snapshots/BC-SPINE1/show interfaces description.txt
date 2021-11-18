@@ -1,0 +1,26 @@
+Interface                      Status         Protocol           Description
+Et1                            up             up                 P2P_LINK_TO_BC-BORDERLEAF1_Ethernet1
+Et2                            up             up                 P2P_LINK_TO_BC-BORDERLEAF2_Ethernet1
+Et3                            up             up                 P2P_LINK_TO_BC-DATALEAF3_Ethernet1
+Et4                            up             up                 P2P_LINK_TO_BC-DATALEAF4_Ethernet1
+Et5                            up             up                 P2P_LINK_TO_BC-DATALEAF5_Ethernet1
+Et6                            up             up                 P2P_LINK_TO_BC-DATALEAF6_Ethernet1
+Et7                            up             up                 P2P_LINK_TO_BC-STOLEAF1_Ethernet1
+Et8                            up             up                 P2P_LINK_TO_BC-STOLEAF2_Ethernet1
+Et9                            up             up                 P2P_LINK_TO_BC-STOLEAF3_Ethernet1
+Et10                           up             up                 P2P_LINK_TO_BC-STOLEAF4_Ethernet1
+Et11                           up             up                 
+Et12                           up             up                 
+Et13                           up             up                 
+Et14                           up             up                 
+Et15                           up             up                 
+Et16                           up             up                 
+Et17                           up             up                 
+Et18                           up             up                 
+Et19                           up             up                 
+Et20                           up             up                 
+Et21                           up             up                 
+Et22                           up             up                 
+Et23                           up             up                 
+Lo0                            up             up                 EVPN_Overlay_Peering
+Ma1                            up             up                 oob_management

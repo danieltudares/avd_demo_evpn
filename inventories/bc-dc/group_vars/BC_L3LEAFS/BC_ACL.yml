@@ -1,0 +1,11 @@
+---
+#Extended ACLS
+access_lists:
+  leaf_acl:
+    sequence_numbers:
+      10:
+        action: "permit icmp any any"
+      12:
+        action: "deny tcp any 192.168.255.0 0.0.0.255 eq telnet"
+      20:
+        action: "permit ip any any"

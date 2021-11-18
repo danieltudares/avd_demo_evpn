@@ -1,0 +1,35 @@
+Address 
+Interface       IP Address           Status     Protocol         MTU    Owner   
+--------------- -------------------- ---------- ------------ ---------- ------- 
+Ethernet1       172.31.255.21/31     up         up              1500            
+Ethernet2       172.31.255.23/31     up         up              1500            
+Ethernet7       unassigned           up         up              1500            
+Ethernet8       unassigned           up         up              1500            
+Ethernet9       unassigned           up         up              1500            
+Ethernet10      unassigned           up         up              1500            
+Ethernet11      unassigned           up         up              1500            
+Loopback0       10.200.1.6/32        up         up             65535            
+Loopback1       192.168.254.5/32     up         up             65535            
+Loopback100     10.255.1.6/32        up         up             65535            
+Management1     172.20.21.106/23     up         up              1500            
+Vlan110         10.1.10.1/24         up         up              1500            
+Vlan111         10.1.11.1/24         up         up              1500            
+Vlan112         10.1.12.1/24         up         up              1500            
+Vlan120         10.1.20.1/24         up         up              1500            
+Vlan121         10.1.21.1/24         up         up              1500            
+Vlan210         10.2.10.1/24         up         up              1500            
+Vlan211         10.2.11.1/24         up         up              1500            
+Vlan250         10.2.50.1/24         up         up              1500            
+Vlan251         10.2.51.1/24         up         up              1500            
+Vlan1190        unassigned           up         up              9164            
+Vlan1191        unassigned           up         up              9164            
+Vlan1192        unassigned           up         up              9164            
+Vlan1193        unassigned           up         up              9164            
+Vlan1194        unassigned           up         up              9164            
+Vlan1195        unassigned           up         up              9164            
+Vlan3009        10.255.251.9/31      up         up              1500            
+Vlan3010        10.255.251.9/31      up         up              1500            
+Vlan3019        10.255.251.9/31      up         up              1500            
+Vlan3020        10.255.251.9/31      up         up              1500            
+Vlan4093        10.255.251.9/31      up         up              1500            
+Vlan4094        10.255.252.9/31      up         up              1500

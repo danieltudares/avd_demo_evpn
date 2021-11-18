@@ -1,0 +1,31 @@
+Interface                      Status         Protocol           Description
+Et1                            up             up                 BC-CORE-PAN-FW-OOBM-01_Eth11
+Et2                            up             up                 BC-CORE-PAN-FW-OOBM-02_Eth2
+Et3                            up             up                 data_server_R2_1_Eth2
+Et4                            up             up                 data_server_R2_2_Eth2
+Et5                            up             up                 data_server_R3_1_Eth2
+Et6                            up             up                 data_server_R3_2_Eth2
+Et7                            up             up                 storage_server_R4_1_Eth2
+Et8                            up             up                 storage_server_R4_2_Eth2
+Et9                            up             up                 storage_server_R5_1_Eth2
+Et10                           up             up                 
+Et11                           up             up                 
+Et12                           up             up                 
+Et13                           up             up                 
+Et14                           up             up                 
+Et15                           up             up                 cvp_server_oobm2_Eth2
+Et16                           up             up                 MLAG_PEER_BC-OOBM1_Ethernet16
+Et17                           up             up                 MLAG_PEER_BC-OOBM1_Ethernet17
+Ma1                            down           down               
+Po1                            down           lowerlayerdown     BC-CORE-PAN-FW-OOBM-01_PortChannel-oobm-FW01
+Po2                            down           lowerlayerdown     BC-CORE-PAN-FW-OOBM-02_PortChannel-oobm-FW02
+Po3                            down           lowerlayerdown     data_server_R2_1_portchannel-oobm
+Po4                            down           lowerlayerdown     data_server_R2_2_portchannel-oobm
+Po5                            down           lowerlayerdown     data_server_R3_1_portchannel-oobm
+Po6                            down           lowerlayerdown     data_server_R3_2_portchannel-oobm
+Po7                            down           lowerlayerdown     storage_server_R4_1_portchannel-oobm
+Po8                            down           lowerlayerdown     storage_server_R4_2_portchannel-oobm
+Po9                            down           lowerlayerdown     storage_server_R5_1_portchannel-oobm
+Po16                           up             up                 MLAG_PEER_BC-OOBM1_Po16
+Vl100                          up             up                 oob_management
+Vl4094                         up             up                 MLAG_PEER

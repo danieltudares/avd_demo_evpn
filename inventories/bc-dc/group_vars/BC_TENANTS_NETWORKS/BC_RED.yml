@@ -1,0 +1,33 @@
+###################################################################
+## BC Operational Technology Specific Information - VRFs / VLANs ##
+###################################################################
+
+BC_RED:
+  mac_vrf_vni_base: 20000
+  vrfs:
+    BC_RED_ZONE_A:
+      vrf_vni: 20
+      svis:
+        210:
+          name: BC_RED_ZONE_A_1
+          tags: [ red_zone, red_zone_a_1 ]
+          enabled: true
+          ip_address_virtual: 10.2.10.1/24
+        211:
+          name: BC_RED_ZONE_A_2
+          tags: [ red_zone, red_zone_a_2 ]
+          enabled: true
+          ip_address_virtual: 10.2.11.1/24
+    BC_RED_ZONE_B:
+      vrf_vni: 21
+      svis:
+        250:
+          name: BC_RED_ZONE_B_1
+          tags: [ red_zone, red_zone_b_1 ]
+          enabled: true
+          ip_address_virtual: 10.2.50.1/24
+        251:
+          name: BC_RED_ZONE_B_2
+          tags: [ red_zone, red_zone_b_2 ]
+          enabled: true
+          ip_address_virtual: 10.2.51.1/24

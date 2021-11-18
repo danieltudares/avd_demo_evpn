@@ -1,0 +1,12 @@
+Last table change time   : 2:32:02 ago
+Number of table inserts  : 4
+Number of table deletes  : 0
+Number of table drops    : 0
+Number of table age-outs : 0
+
+Port          Neighbor Device ID              Neighbor Port ID    TTL 
+---------- ------------------------------- ---------------------- --- 
+Et1           BC-SPINE1.tudareslab.io         Ethernet7           120 
+Et2           BC-SPINE2.tudareslab.io         Ethernet7           120 
+Et12          BC-STOLEAF2.tudareslab.io       Ethernet12          120 
+Et13          BC-STOLEAF2.tudareslab.io       Ethernet13          120

@@ -1,0 +1,1046 @@
+fabric_name: BC_FABRIC_1
+timezone: America/Toronto
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$LJcUms0WZ9UyskIF$b6jUZMJmruk95uA0GPood4z4Tgb2aHKqnRhm7HyHl3kjsgE6mA5.V3W/vwl16WeICFvWWz1vkU1zQET0CbILG0
+  cvpadmin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$pWE0vYbIJTmV0ZWc$nIrbLNYS3pIgpFj9vuzkchwyA19betlJZjWR.KE95GHwOALliiUUAu92JUWg9jQ12Yd3.aTQmWf.gRe2VNo2Y.
+cvp_instance_ip: 172.20.21.10
+cvp_ingestauth_key: arista
+mgmt_gateway: 172.20.20.1
+mgmt_vrf_routing: false
+mgmt_interface: Management1
+mgmt_interface_vrf: mgmt
+mgmt_destination_networks:
+- 0.0.0.0/0
+dns_domain: tudareslab.io
+name_server:
+  source:
+    vrf: mgmt
+  nodes:
+  - 172.20.20.6
+ntp:
+  servers:
+  - name: time.google.com
+    iburst: true
+    vrf: mgmt
+BC_BLUE:
+  mac_vrf_vni_base: 10000
+  vrfs:
+    BC_BLUE_ZONE_A:
+      vrf_vni: 10
+      vtep_diagnostic:
+        loopback: 100
+        loopback_ip_range: 10.255.1.0/24
+      svis:
+        110:
+          name: BC_BLUE_ZONE_A_1
+          tags:
+          - blue_zone
+          - blue_zone_a_1
+          enabled: true
+          ip_address_virtual: 10.1.10.1/24
+          structured_config:
+            access_group_in: leaf_acl
+        111:
+          name: BC_BLUE_ZONE_A_2
+          tags:
+          - blue_zone
+          - blue_zone_a_2
+          enabled: true
+          ip_address_virtual: 10.1.11.1/24
+        112:
+          name: BC_BLUE_ZONE_A_3
+          tags:
+          - blue_zone
+          - blue_zone_a_3
+          enabled: true
+          ip_address_virtual: 10.1.12.1/24
+    BC_BLUE_ZONE_B:
+      vrf_vni: 11
+      svis:
+        120:
+          name: BC_BLUE_ZONE_B_1
+          tags:
+          - blue_zone
+          - blue_zone_b_1
+          enabled: true
+          ip_address_virtual: 10.1.20.1/24
+        121:
+          name: BC_BLUE_ZONE_B_2
+          tags:
+          - blue_zone
+          - blue_zone_b_2
+          enabled: true
+          ip_address_virtual: 10.1.21.1/24
+  l2vlans:
+    160:
+      vni_override: 50160
+      name: BC_VMOTION
+      tags:
+      - vmotion
+    161:
+      name: BC_NFS
+      tags:
+      - nfs
+BC_RED:
+  mac_vrf_vni_base: 20000
+  vrfs:
+    BC_RED_ZONE_A:
+      vrf_vni: 20
+      svis:
+        210:
+          name: BC_RED_ZONE_A_1
+          tags:
+          - red_zone
+          - red_zone_a_1
+          enabled: true
+          ip_address_virtual: 10.2.10.1/24
+        211:
+          name: BC_RED_ZONE_A_2
+          tags:
+          - red_zone
+          - red_zone_a_2
+          enabled: true
+          ip_address_virtual: 10.2.11.1/24
+    BC_RED_ZONE_B:
+      vrf_vni: 21
+      svis:
+        250:
+          name: BC_RED_ZONE_B_1
+          tags:
+          - red_zone
+          - red_zone_b_1
+          enabled: true
+          ip_address_virtual: 10.2.50.1/24
+        251:
+          name: BC_RED_ZONE_B_2
+          tags:
+          - red_zone
+          - red_zone_b_2
+          enabled: true
+          ip_address_virtual: 10.2.51.1/24
+BC_STO:
+  mac_vrf_vni_base: 30000
+  vrfs:
+    BC_STO_ZONE_A:
+      vrf_vni: 30
+      svis:
+        310:
+          name: BC_STO_ZONE_A_1
+          tags:
+          - sto_zone
+          - sto_zone_a_1
+          enabled: true
+          ip_address_virtual: 10.3.10.1/24
+        311:
+          name: BC_STO_ZONE_A_2
+          tags:
+          - sto_zone
+          - sto_zone_a_2
+          enabled: true
+          ip_address_virtual: 10.3.11.1/24
+    BC_STO_ZONE_B:
+      vrf_vni: 31
+      svis:
+        350:
+          name: BC_STO_ZONE_B_1
+          tags:
+          - sto_zone
+          - sto_zone_b_1
+          enabled: true
+          ip_address_virtual: 10.3.50.1/24
+        351:
+          name: BC_STO_ZONE_B_2
+          tags:
+          - sto_zone
+          - sto_zone_b_2
+          enabled: true
+          ip_address_virtual: 10.3.51.1/24
+tenants:
+  BC_BLUE:
+    mac_vrf_vni_base: 10000
+    vrfs:
+      BC_BLUE_ZONE_A:
+        vrf_vni: 10
+        vtep_diagnostic:
+          loopback: 100
+          loopback_ip_range: 10.255.1.0/24
+        svis:
+          110:
+            name: BC_BLUE_ZONE_A_1
+            tags:
+            - blue_zone
+            - blue_zone_a_1
+            enabled: true
+            ip_address_virtual: 10.1.10.1/24
+            structured_config:
+              access_group_in: leaf_acl
+          111:
+            name: BC_BLUE_ZONE_A_2
+            tags:
+            - blue_zone
+            - blue_zone_a_2
+            enabled: true
+            ip_address_virtual: 10.1.11.1/24
+          112:
+            name: BC_BLUE_ZONE_A_3
+            tags:
+            - blue_zone
+            - blue_zone_a_3
+            enabled: true
+            ip_address_virtual: 10.1.12.1/24
+      BC_BLUE_ZONE_B:
+        vrf_vni: 11
+        svis:
+          120:
+            name: BC_BLUE_ZONE_B_1
+            tags:
+            - blue_zone
+            - blue_zone_b_1
+            enabled: true
+            ip_address_virtual: 10.1.20.1/24
+          121:
+            name: BC_BLUE_ZONE_B_2
+            tags:
+            - blue_zone
+            - blue_zone_b_2
+            enabled: true
+            ip_address_virtual: 10.1.21.1/24
+    l2vlans:
+      160:
+        vni_override: 50160
+        name: BC_VMOTION
+        tags:
+        - vmotion
+      161:
+        name: BC_NFS
+        tags:
+        - nfs
+  BC_RED:
+    mac_vrf_vni_base: 20000
+    vrfs:
+      BC_RED_ZONE_A:
+        vrf_vni: 20
+        svis:
+          210:
+            name: BC_RED_ZONE_A_1
+            tags:
+            - red_zone
+            - red_zone_a_1
+            enabled: true
+            ip_address_virtual: 10.2.10.1/24
+          211:
+            name: BC_RED_ZONE_A_2
+            tags:
+            - red_zone
+            - red_zone_a_2
+            enabled: true
+            ip_address_virtual: 10.2.11.1/24
+      BC_RED_ZONE_B:
+        vrf_vni: 21
+        svis:
+          250:
+            name: BC_RED_ZONE_B_1
+            tags:
+            - red_zone
+            - red_zone_b_1
+            enabled: true
+            ip_address_virtual: 10.2.50.1/24
+          251:
+            name: BC_RED_ZONE_B_2
+            tags:
+            - red_zone
+            - red_zone_b_2
+            enabled: true
+            ip_address_virtual: 10.2.51.1/24
+  BC_STO:
+    mac_vrf_vni_base: 30000
+    vrfs:
+      BC_STO_ZONE_A:
+        vrf_vni: 30
+        svis:
+          310:
+            name: BC_STO_ZONE_A_1
+            tags:
+            - sto_zone
+            - sto_zone_a_1
+            enabled: true
+            ip_address_virtual: 10.3.10.1/24
+          311:
+            name: BC_STO_ZONE_A_2
+            tags:
+            - sto_zone
+            - sto_zone_a_2
+            enabled: true
+            ip_address_virtual: 10.3.11.1/24
+      BC_STO_ZONE_B:
+        vrf_vni: 31
+        svis:
+          350:
+            name: BC_STO_ZONE_B_1
+            tags:
+            - sto_zone
+            - sto_zone_b_1
+            enabled: true
+            ip_address_virtual: 10.3.50.1/24
+          351:
+            name: BC_STO_ZONE_B_2
+            tags:
+            - sto_zone
+            - sto_zone_b_2
+            enabled: true
+            ip_address_virtual: 10.3.51.1/24
+ansible_connection: httpapi
+ansible_network_os: eos
+ansible_user: cvpadmin
+ansible_ssh_pass: arista123
+ansible_become: true
+ansible_become_method: enable
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false
+ansible_python_interpreter: $(which python3)
+underlay_routing_protocol: EBGP
+overlay_routing_protocol: EBGP
+bgp_maximum_paths: 6
+bgp_ecmp: 6
+underlay_p2p_network_summary: 172.31.255.0/24
+overlay_loopback_network_summary: 192.168.255.0/24
+vtep_loopback_network_summary: 192.168.254.0/24
+vxlan_vlan_aware_bundles: true
+bgp_peer_groups:
+  IPv4_UNDERLAY_PEERS:
+    password: AQQvKeimxJu+uGQ/yYvv9w==
+  EVPN_OVERLAY_PEERS:
+    password: q+VNViP5i4rVjW1cxFv2wA==
+  MLAG_IPv4_UNDERLAY_PEER:
+    password: 4b21pAdCvWeAqpcKDFMdWw==
+p2p_uplinks_mtu: 1500
+bfd_multihop:
+  interval: 1200
+  min_rx: 1200
+  multiplier: 3
+access_lists:
+  leaf_acl:
+    sequence_numbers:
+      10:
+        action: permit icmp any any
+      12:
+        action: deny tcp any 192.168.255.0 0.0.0.255 eq telnet
+      20:
+        action: permit ip any any
+type: l3leaf
+l3leaf:
+  defaults:
+    platform: vEOS-LAB
+    bgp_as: 65100
+    vtep_loopback_ipv4_pool: 192.168.254.0/24
+    loopback_ipv4_pool: 10.200.1.0/24
+    mlag: true
+    mlag_interfaces:
+    - Ethernet12
+    - Ethernet13
+    mlag_peer_l3_vlan: 4093
+    mlag_peer_vlan: 4094
+    mlag_peer_ipv4_pool: 10.255.252.0/24
+    mlag_peer_l3_ipv4_pool: 10.255.251.0/24
+    uplink_ipv4_pool: 172.31.255.0/24
+    uplink_interfaces:
+    - Ethernet1
+    - Ethernet2
+    uplink_switches:
+    - BC-SPINE1
+    - BC-SPINE2
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    virtual_router_mac_address: 00:dc:00:00:00:0a
+  node_groups:
+    BC_BORDER_RACK1:
+      bgp_as: 65101
+      filter:
+        tenants:
+        - BC_BLUE
+        - BC_RED
+        tags:
+        - vmotion
+        - nfs
+      nodes:
+        BC-BORDERLEAF1:
+          id: 1
+          mgmt_ip: 172.20.21.101/23
+          uplink_switch_interfaces:
+          - Ethernet1
+          - Ethernet1
+          structured_config:
+            ethernet_interfaces:
+              Ethernet15:
+                description: this is a test
+                type: routed
+                access_group_in: leaf_acl
+        BC-BORDERLEAF2:
+          id: 2
+          mgmt_ip: 172.20.21.102/23
+          uplink_switch_interfaces:
+          - Ethernet2
+          - Ethernet2
+    BC_DATA_RACK2:
+      bgp_as: 65102
+      filter:
+        tenants:
+        - BC_BLUE
+        - BC_RED
+        tags:
+        - vmotion
+        - nfs
+        - blue_zone
+        - red_zone
+      nodes:
+        BC-DATALEAF3:
+          id: 3
+          mgmt_ip: 172.20.21.103/23
+          uplink_switch_interfaces:
+          - Ethernet3
+          - Ethernet3
+        BC-DATALEAF4:
+          id: 4
+          mgmt_ip: 172.20.21.104/23
+          uplink_switch_interfaces:
+          - Ethernet4
+          - Ethernet4
+    BC_DATA_RACK3:
+      bgp_as: 65103
+      filter:
+        tenants:
+        - BC_BLUE
+        - BC_RED
+        tags:
+        - vmotion
+        - nfs
+        - blue_zone
+        - red_zone
+      nodes:
+        BC-DATALEAF5:
+          id: 5
+          mgmt_ip: 172.20.21.105/23
+          uplink_switch_interfaces:
+          - Ethernet5
+          - Ethernet5
+        BC-DATALEAF6:
+          id: 6
+          mgmt_ip: 172.20.21.106/23
+          uplink_switch_interfaces:
+          - Ethernet6
+          - Ethernet6
+    BC_STO_RACK1:
+      bgp_as: 65104
+      filter:
+        tenants:
+        - BC_STO
+        tags:
+        - vmotion
+        - nfs
+        - sto_zone
+      nodes:
+        BC-STOLEAF1:
+          id: 7
+          mgmt_ip: 172.20.21.111/23
+          uplink_switch_interfaces:
+          - Ethernet7
+          - Ethernet7
+        BC-STOLEAF2:
+          id: 8
+          mgmt_ip: 172.20.21.112/23
+          uplink_switch_interfaces:
+          - Ethernet8
+          - Ethernet8
+    BC_STO_RACK2:
+      bgp_as: 65105
+      filter:
+        tenants:
+        - BC_BLUE
+        - BC_STO
+        tags:
+        - vmotion
+        - nfs
+        - blue_zone_a_1
+        - sto_zone
+      nodes:
+        BC-STOLEAF3:
+          id: 9
+          mgmt_ip: 172.20.21.113/23
+          uplink_switch_interfaces:
+          - Ethernet9
+          - Ethernet9
+        BC-STOLEAF4:
+          id: 10
+          mgmt_ip: 172.20.21.114/23
+          uplink_switch_interfaces:
+          - Ethernet10
+          - Ethernet10
+leaf_bgp_defaults:
+- no bgp default ipv4-unicast
+- distance bgp 20 200 200
+- graceful-restart restart-time 300
+- graceful-restart
+bc_servers_rack3:
+  data_server_1:
+    rack: R3
+    adapters:
+    - endpoint_ports:
+      - Eth3
+      - Eth4
+      switch_ports:
+      - Ethernet3
+      - Ethernet3
+      switches:
+      - BC-DATALEAF5
+      - BC-DATALEAF6
+      profile: data_server_tenant_blue_zoneA
+      port_channel:
+        state: present
+        description: portchannel-tenant_blue_zoneA
+        mode: active
+    - endpoint_ports:
+      - Eth5
+      - Eth6
+      switch_ports:
+      - Ethernet4
+      - Ethernet4
+      switches:
+      - BC-DATALEAF5
+      - BC-DATALEAF6
+      profile: data_server_tenant_blue_zoneb
+      port_channel:
+        state: present
+        description: portchannel-tenant_blue_zoneB
+        mode: active
+  data_server_2:
+    rack: R3
+    adapters:
+    - endpoint_ports:
+      - Eth3
+      - Eth4
+      switch_ports:
+      - Ethernet5
+      - Ethernet5
+      switches:
+      - BC-DATALEAF5
+      - BC-DATALEAF6
+      profile: data_server_tenant_blue_zoneA
+      port_channel:
+        state: present
+        description: portchannel-tenant_blue_zoneA
+        mode: active
+    - endpoint_ports:
+      - Eth5
+      - Eth6
+      switch_ports:
+      - Ethernet6
+      - Ethernet6
+      switches:
+      - BC-DATALEAF5
+      - BC-DATALEAF6
+      profile: data_server_tenant_blue_zoneb
+      port_channel:
+        state: present
+        description: portchannel-tenant_blue_zoneB
+        mode: active
+port_profiles:
+  data_server_tenant_blue_zoneA:
+    mode: trunk
+    native_vlan: '110'
+    vlans: 110,111,112
+    raw_eos_cli: 'no snmp trap link-change
+
+      '
+  data_server_tenant_blue_zoneB:
+    mode: trunk
+    native_vlan: '120'
+    vlans: 120,121
+    raw_eos_cli: no snmp trap link-change
+connected_endpoints_keys:
+  bc_servers_rack3:
+    type: data_servers
+inventory_file: /home/avd/projects/bcproject/inventories/bc-dc/inventory.yml
+inventory_dir: /home/avd/projects/bcproject/inventories/bc-dc
+ansible_host: 172.20.21.106
+inventory_hostname: BC-DATALEAF6
+inventory_hostname_short: BC-DATALEAF6
+group_names:
+- BC_DATA_RACK3
+- BC_DC
+- BC_FABRIC_1
+- BC_L3LEAFS
+- BC_TENANTS_NETWORKS
+- EOS
+ansible_facts:
+  switch:
+    type: l3leaf
+    node_type_key: l3leaf
+    connected_endpoints: true
+    default_evpn_role: client
+    mlag_support: true
+    network_services_l2: true
+    network_services_l3: true
+    underlay_router: true
+    uplink_type: p2p
+    vtep: true
+    ip_addressing:
+      router_id: ip_addressing/router-id.j2
+      mlag_ip_primary: ip_addressing/mlag-ip-primary.j2
+      mlag_ip_secondary: ip_addressing/mlag-ip-secondary.j2
+      mlag_l3_ip_primary: ip_addressing/mlag-l3-ip-primary.j2
+      mlag_l3_ip_secondary: ip_addressing/mlag-l3-ip-secondary.j2
+      p2p_uplinks_ip: ip_addressing/p2p-uplinks-ip.j2
+      p2p_uplinks_peer_ip: ip_addressing/p2p-uplinks-peer-ip.j2
+      vtep_ip_mlag: ip_addressing/vtep-ip-mlag.j2
+      vtep_ip: ip_addressing/vtep-ip.j2
+    interface_descriptions:
+      underlay_ethernet_interfaces: interface_descriptions/underlay/ethernet-interfaces.j2
+      underlay_port_channel_interfaces: interface_descriptions/underlay/port-channel-interfaces.j2
+      connected_endpoints_ethernet_interfaces: interface_descriptions/connected_endpoints/ethernet-interfaces.j2
+      connected_endpoints_port_channel_interfaces: interface_descriptions/connected_endpoints/port-channel-interfaces.j2
+      overlay_loopback_interface: interface_descriptions/loopback_interfaces/overlay-loopback.j2
+      vtep_loopback_interface: interface_descriptions/loopback_interfaces/vtep-loopback.j2
+    group: BC_DATA_RACK3
+    id: 6
+    mgmt_ip: 172.20.21.106/23
+    platform: vEOS-LAB
+    platform_settings:
+      platforms:
+      - default
+      reload_delay:
+        mlag: 300
+        non_mlag: 330
+      feature_support:
+        queue_monitor_length_notify: false
+    underlay_routing_protocol: ebgp
+    overlay_routing_protocol: ebgp
+    filter_tenants:
+    - BC_BLUE
+    - BC_RED
+    filter_tags:
+    - vmotion
+    - nfs
+    - blue_zone
+    - red_zone
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    igmp_snooping_enabled: true
+    virtual_router_mac_address: 00:dc:00:00:00:0a
+    max_uplink_switches: 2
+    max_parallel_uplinks: 1
+    uplink_switches:
+    - BC-SPINE1
+    - BC-SPINE2
+    uplink_switch_interfaces:
+    - Ethernet6
+    - Ethernet6
+    uplink_interfaces:
+    - Ethernet1
+    - Ethernet2
+    loopback_ipv4_pool: 10.200.1.0/24
+    loopback_ipv4_offset: 0
+    uplink_ipv4_pool: 172.31.255.0/24
+    router_id: 10.200.1.6
+    bgp_as: '65103'
+    bgp_defaults: []
+    evpn_role: client
+    evpn_route_servers:
+    - BC-SPINE1
+    - BC-SPINE2
+    mlag: true
+    mlag_group: BC_DATA_RACK3
+    mlag_ibgp_origin_incomplete: true
+    mlag_peer_vlan: 4094
+    mlag_dual_primary_detection: false
+    mlag_interfaces:
+    - Ethernet12
+    - Ethernet13
+    mlag_l3: true
+    mlag_peer_l3_vlan: 4093
+    mlag_role: secondary
+    mlag_peer: BC-DATALEAF5
+    mlag_peer_mgmt_ip: 172.20.21.105
+    mlag_ip: 10.255.252.9
+    mlag_peer_ip: 10.255.252.8
+    mlag_l3_ip: 10.255.251.9
+    mlag_peer_l3_ip: 10.255.251.8
+    vtep_loopback_ipv4_pool: 192.168.254.0/24
+    vtep_loopback: Loopback1
+    vtep_ip: 192.168.254.5
+    evpn_services_l2_only: false
+    tenants:
+      BC_BLUE:
+        vrfs:
+          BC_BLUE_ZONE_A:
+            svis:
+            - 110
+            - 111
+            - 112
+          BC_BLUE_ZONE_B:
+            svis:
+            - 120
+            - 121
+        l2vlans:
+        - 160
+        - 161
+      BC_RED:
+        vrfs:
+          BC_RED_ZONE_A:
+            svis:
+            - 210
+            - 211
+          BC_RED_ZONE_B:
+            svis:
+            - 250
+            - 251
+        l2vlans: []
+    vlans:
+    - 110
+    - 111
+    - 112
+    - 120
+    - 121
+    - 160
+    - 161
+    - 210
+    - 211
+    - 250
+    - 251
+  topology:
+    links:
+      Ethernet1:
+        peer: BC-SPINE1
+        peer_interface: Ethernet6
+        peer_type: spine
+        peer_bgp_as: '65001'
+        type: underlay_p2p
+        ip_address: 172.31.255.21
+        peer_ip_address: 172.31.255.20
+      Ethernet2:
+        peer: BC-SPINE2
+        peer_interface: Ethernet6
+        peer_type: spine
+        peer_bgp_as: '65001'
+        type: underlay_p2p
+        ip_address: 172.31.255.23
+        peer_ip_address: 172.31.255.22
+    peers:
+    - BC-SPINE1
+    - BC-SPINE2
+    vlans:
+    - 110
+    - 111
+    - 112
+    - 120
+    - 121
+    - 160
+    - 161
+    - 210
+    - 211
+    - 250
+    - 251
+switch:
+  type: l3leaf
+  node_type_key: l3leaf
+  connected_endpoints: true
+  default_evpn_role: client
+  mlag_support: true
+  network_services_l2: true
+  network_services_l3: true
+  underlay_router: true
+  uplink_type: p2p
+  vtep: true
+  ip_addressing:
+    router_id: ip_addressing/router-id.j2
+    mlag_ip_primary: ip_addressing/mlag-ip-primary.j2
+    mlag_ip_secondary: ip_addressing/mlag-ip-secondary.j2
+    mlag_l3_ip_primary: ip_addressing/mlag-l3-ip-primary.j2
+    mlag_l3_ip_secondary: ip_addressing/mlag-l3-ip-secondary.j2
+    p2p_uplinks_ip: ip_addressing/p2p-uplinks-ip.j2
+    p2p_uplinks_peer_ip: ip_addressing/p2p-uplinks-peer-ip.j2
+    vtep_ip_mlag: ip_addressing/vtep-ip-mlag.j2
+    vtep_ip: ip_addressing/vtep-ip.j2
+  interface_descriptions:
+    underlay_ethernet_interfaces: interface_descriptions/underlay/ethernet-interfaces.j2
+    underlay_port_channel_interfaces: interface_descriptions/underlay/port-channel-interfaces.j2
+    connected_endpoints_ethernet_interfaces: interface_descriptions/connected_endpoints/ethernet-interfaces.j2
+    connected_endpoints_port_channel_interfaces: interface_descriptions/connected_endpoints/port-channel-interfaces.j2
+    overlay_loopback_interface: interface_descriptions/loopback_interfaces/overlay-loopback.j2
+    vtep_loopback_interface: interface_descriptions/loopback_interfaces/vtep-loopback.j2
+  group: BC_DATA_RACK3
+  id: 6
+  mgmt_ip: 172.20.21.106/23
+  platform: vEOS-LAB
+  platform_settings:
+    platforms:
+    - default
+    reload_delay:
+      mlag: 300
+      non_mlag: 330
+    feature_support:
+      queue_monitor_length_notify: false
+  underlay_routing_protocol: ebgp
+  overlay_routing_protocol: ebgp
+  filter_tenants:
+  - BC_BLUE
+  - BC_RED
+  filter_tags:
+  - vmotion
+  - nfs
+  - blue_zone
+  - red_zone
+  spanning_tree_mode: mstp
+  spanning_tree_priority: 4096
+  igmp_snooping_enabled: true
+  virtual_router_mac_address: 00:dc:00:00:00:0a
+  max_uplink_switches: 2
+  max_parallel_uplinks: 1
+  uplink_switches:
+  - BC-SPINE1
+  - BC-SPINE2
+  uplink_switch_interfaces:
+  - Ethernet6
+  - Ethernet6
+  uplink_interfaces:
+  - Ethernet1
+  - Ethernet2
+  loopback_ipv4_pool: 10.200.1.0/24
+  loopback_ipv4_offset: 0
+  uplink_ipv4_pool: 172.31.255.0/24
+  router_id: 10.200.1.6
+  bgp_as: '65103'
+  bgp_defaults: []
+  evpn_role: client
+  evpn_route_servers:
+  - BC-SPINE1
+  - BC-SPINE2
+  mlag: true
+  mlag_group: BC_DATA_RACK3
+  mlag_ibgp_origin_incomplete: true
+  mlag_peer_vlan: 4094
+  mlag_dual_primary_detection: false
+  mlag_interfaces:
+  - Ethernet12
+  - Ethernet13
+  mlag_l3: true
+  mlag_peer_l3_vlan: 4093
+  mlag_role: secondary
+  mlag_peer: BC-DATALEAF5
+  mlag_peer_mgmt_ip: 172.20.21.105
+  mlag_ip: 10.255.252.9
+  mlag_peer_ip: 10.255.252.8
+  mlag_l3_ip: 10.255.251.9
+  mlag_peer_l3_ip: 10.255.251.8
+  vtep_loopback_ipv4_pool: 192.168.254.0/24
+  vtep_loopback: Loopback1
+  vtep_ip: 192.168.254.5
+  evpn_services_l2_only: false
+  tenants:
+    BC_BLUE:
+      vrfs:
+        BC_BLUE_ZONE_A:
+          svis:
+          - 110
+          - 111
+          - 112
+        BC_BLUE_ZONE_B:
+          svis:
+          - 120
+          - 121
+      l2vlans:
+      - 160
+      - 161
+    BC_RED:
+      vrfs:
+        BC_RED_ZONE_A:
+          svis:
+          - 210
+          - 211
+        BC_RED_ZONE_B:
+          svis:
+          - 250
+          - 251
+      l2vlans: []
+  vlans:
+  - 110
+  - 111
+  - 112
+  - 120
+  - 121
+  - 160
+  - 161
+  - 210
+  - 211
+  - 250
+  - 251
+topology:
+  links:
+    Ethernet1:
+      peer: BC-SPINE1
+      peer_interface: Ethernet6
+      peer_type: spine
+      peer_bgp_as: '65001'
+      type: underlay_p2p
+      ip_address: 172.31.255.21
+      peer_ip_address: 172.31.255.20
+    Ethernet2:
+      peer: BC-SPINE2
+      peer_interface: Ethernet6
+      peer_type: spine
+      peer_bgp_as: '65001'
+      type: underlay_p2p
+      ip_address: 172.31.255.23
+      peer_ip_address: 172.31.255.22
+  peers:
+  - BC-SPINE1
+  - BC-SPINE2
+  vlans:
+  - 110
+  - 111
+  - 112
+  - 120
+  - 121
+  - 160
+  - 161
+  - 210
+  - 211
+  - 250
+  - 251
+playbook_dir: /home/avd/projects/bcproject/playbooks
+ansible_playbook_python: /usr/local/bin/python
+ansible_config_file: /home/avd/projects/bcproject/ansible.cfg
+groups:
+  all:
+  - CVP-ZTP
+  - CVP-SERVER
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-OOBM1
+  - BC-OOBM2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  ungrouped: []
+  CVP:
+  - CVP-ZTP
+  - CVP-SERVER
+  BC_DC:
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  - BC-OOBM1
+  - BC-OOBM2
+  BC_FABRIC_1:
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-OOBM1
+  - BC-OOBM2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_SPINES:
+  - BC-SPINE1
+  - BC-SPINE2
+  BC_L3LEAFS:
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_BORDER_RACK1:
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  BC_DATA_RACK2:
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  BC_DATA_RACK3:
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  BC_STO_RACK1:
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  BC_STO_RACK2:
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_OOBM:
+  - BC-OOBM1
+  - BC-OOBM2
+  BC-OOBM:
+  - BC-OOBM1
+  - BC-OOBM2
+  EOS:
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-OOBM1
+  - BC-OOBM2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_TENANTS_NETWORKS:
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+omit: __omit_place_holder__2d873bc3042e4881ff1bdf881744a6f8ba890b98
+ansible_version:
+  string: 2.11.6
+  full: 2.11.6
+  major: 2
+  minor: 11
+  revision: 6
+ansible_check_mode: false
+ansible_diff_mode: false
+ansible_forks: 5
+ansible_inventory_sources:
+- /home/avd/projects/bcproject/inventories/bc-dc/inventory.yml
+ansible_skip_tags: []
+ansible_run_tags:
+- build
+ansible_verbosity: 0

@@ -1,0 +1,557 @@
+fabric_name: BC_FABRIC_1
+timezone: America/Toronto
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$LJcUms0WZ9UyskIF$b6jUZMJmruk95uA0GPood4z4Tgb2aHKqnRhm7HyHl3kjsgE6mA5.V3W/vwl16WeICFvWWz1vkU1zQET0CbILG0
+  cvpadmin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$pWE0vYbIJTmV0ZWc$nIrbLNYS3pIgpFj9vuzkchwyA19betlJZjWR.KE95GHwOALliiUUAu92JUWg9jQ12Yd3.aTQmWf.gRe2VNo2Y.
+cvp_instance_ip: 172.20.21.10
+cvp_ingestauth_key: arista
+mgmt_gateway: 172.20.20.1
+mgmt_vrf_routing: false
+mgmt_interface: vlan100
+mgmt_interface_vrf: default
+mgmt_destination_networks:
+- 0.0.0.0/0
+dns_domain: tudareslab.io
+name_server:
+  source:
+    vrf: default
+  nodes:
+  - 172.20.20.6
+ntp:
+  servers:
+  - name: time.google.com
+    iburst: true
+    vrf: default
+ansible_connection: httpapi
+ansible_network_os: eos
+ansible_user: cvpadmin
+ansible_ssh_pass: arista123
+ansible_become: true
+ansible_become_method: enable
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false
+ansible_python_interpreter: $(which python3)
+underlay_routing_protocol: EBGP
+overlay_routing_protocol: EBGP
+bgp_maximum_paths: 6
+bgp_ecmp: 6
+underlay_p2p_network_summary: 172.31.255.0/24
+overlay_loopback_network_summary: 192.168.255.0/24
+vtep_loopback_network_summary: 192.168.254.0/24
+vxlan_vlan_aware_bundles: true
+bgp_peer_groups:
+  IPv4_UNDERLAY_PEERS:
+    password: AQQvKeimxJu+uGQ/yYvv9w==
+  EVPN_OVERLAY_PEERS:
+    password: q+VNViP5i4rVjW1cxFv2wA==
+  MLAG_IPv4_UNDERLAY_PEER:
+    password: 4b21pAdCvWeAqpcKDFMdWw==
+p2p_uplinks_mtu: 1500
+bfd_multihop:
+  interval: 1200
+  min_rx: 1200
+  multiplier: 3
+bc_oobm_firewalls:
+  BC-CORE-PAN-FW-OOBM-01:
+    rack: BORDER_RACK_1
+    adapters:
+    - endpoint_ports:
+      - Eth10
+      - Eth11
+      switch_ports:
+      - Ethernet1
+      - Ethernet1
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: PortChannel-oobm-FW01
+        mode: active
+  BC-CORE-PAN-FW-OOBM-02:
+    rack: BORDER_RACK_1
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet2
+      - Ethernet2
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: PortChannel-oobm-FW02
+        mode: active
+port_profiles:
+  oobm_if:
+    mode: access
+    vlans: '100'
+    raw_eos_cli: 'no snmp trap link-change
+
+      '
+bc_oobm_devices:
+  cvp_server_oobm1:
+    rack: R2
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      switch_ports:
+      - Ethernet15
+      switches:
+      - BC-OOBM1
+      profile: oobm_if
+  cvp_server_oobm2:
+    rack: R2
+    adapters:
+    - endpoint_ports:
+      - Eth2
+      switch_ports:
+      - Ethernet15
+      switches:
+      - BC-OOBM2
+      profile: oobm_if
+  data_server_R2_1:
+    rack: R2
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet3
+      - Ethernet3
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: portchannel-oobm
+        mode: active
+  data_server_R2_2:
+    rack: R2
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet4
+      - Ethernet4
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: portchannel-oobm
+        mode: active
+  data_server_R3_1:
+    rack: R3
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet5
+      - Ethernet5
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: portchannel-oobm
+        mode: active
+  data_server_R3_2:
+    rack: R3
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet6
+      - Ethernet6
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: portchannel-oobm
+        mode: active
+  storage_server_R4_1:
+    rack: R4
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet7
+      - Ethernet7
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: portchannel-oobm
+        mode: active
+  storage_server_R4_2:
+    rack: R4
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet8
+      - Ethernet8
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: portchannel-oobm
+        mode: active
+  storage_server_R5_1:
+    rack: R5
+    adapters:
+    - endpoint_ports:
+      - Eth1
+      - Eth2
+      switch_ports:
+      - Ethernet9
+      - Ethernet9
+      switches:
+      - BC-OOBM1
+      - BC-OOBM2
+      profile: oobm_if
+      port_channel:
+        state: present
+        description: portchannel-oobm
+        mode: active
+type: l2leaf
+l2leaf:
+  defaults:
+    platform: vEOS-LAB
+    mlag_peer_ipv4_pool: 10.255.252.0/24
+    mlag_peer_l3_ipv4_pool: 10.255.251.0/24
+    mlag_interfaces:
+    - Ethernet16
+    - Ethernet17
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    raw_eos_cli: 'vlan 100
+
+      '
+  node_groups:
+    BC_OOBM:
+      nodes:
+        BC-OOBM1:
+          id: 1
+          mgmt_ip: 172.20.21.13/23
+        BC-OOBM2:
+          id: 2
+          mgmt_ip: 172.20.21.14/23
+connected_endpoints_keys:
+  bc_oobm_devices:
+    type: oobm_devices
+  bc_oobm_firewalls:
+    type: oobm_firewall
+inventory_file: /home/avd/projects/bcproject/inventories/bc-dc/inventory.yml
+inventory_dir: /home/avd/projects/bcproject/inventories/bc-dc
+ansible_host: 172.20.21.13
+inventory_hostname: BC-OOBM1
+inventory_hostname_short: BC-OOBM1
+group_names:
+- BC-OOBM
+- BC_DC
+- BC_FABRIC_1
+- BC_OOBM
+- EOS
+ansible_facts:
+  switch:
+    type: l2leaf
+    node_type_key: l2leaf
+    connected_endpoints: true
+    default_evpn_role: none
+    mlag_support: true
+    network_services_l2: true
+    network_services_l3: false
+    underlay_router: false
+    uplink_type: port-channel
+    vtep: false
+    ip_addressing:
+      router_id: ip_addressing/router-id.j2
+      mlag_ip_primary: ip_addressing/mlag-ip-primary.j2
+      mlag_ip_secondary: ip_addressing/mlag-ip-secondary.j2
+      mlag_l3_ip_primary: ip_addressing/mlag-l3-ip-primary.j2
+      mlag_l3_ip_secondary: ip_addressing/mlag-l3-ip-secondary.j2
+      p2p_uplinks_ip: ip_addressing/p2p-uplinks-ip.j2
+      p2p_uplinks_peer_ip: ip_addressing/p2p-uplinks-peer-ip.j2
+      vtep_ip_mlag: ip_addressing/vtep-ip-mlag.j2
+      vtep_ip: ip_addressing/vtep-ip.j2
+    interface_descriptions:
+      underlay_ethernet_interfaces: interface_descriptions/underlay/ethernet-interfaces.j2
+      underlay_port_channel_interfaces: interface_descriptions/underlay/port-channel-interfaces.j2
+      connected_endpoints_ethernet_interfaces: interface_descriptions/connected_endpoints/ethernet-interfaces.j2
+      connected_endpoints_port_channel_interfaces: interface_descriptions/connected_endpoints/port-channel-interfaces.j2
+      overlay_loopback_interface: interface_descriptions/loopback_interfaces/overlay-loopback.j2
+      vtep_loopback_interface: interface_descriptions/loopback_interfaces/vtep-loopback.j2
+    group: BC_OOBM
+    id: 1
+    mgmt_ip: 172.20.21.13/23
+    platform: vEOS-LAB
+    platform_settings:
+      platforms:
+      - default
+      reload_delay:
+        mlag: 300
+        non_mlag: 330
+      feature_support:
+        queue_monitor_length_notify: false
+    underlay_routing_protocol: ebgp
+    overlay_routing_protocol: ebgp
+    filter_tenants:
+    - all
+    filter_tags:
+    - all
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    igmp_snooping_enabled: true
+    max_uplink_switches: 0
+    max_parallel_uplinks: 1
+    raw_eos_cli: 'vlan 100
+
+      '
+    mlag: true
+    mlag_group: BC_OOBM
+    mlag_ibgp_origin_incomplete: true
+    mlag_peer_vlan: 4094
+    mlag_dual_primary_detection: false
+    mlag_interfaces:
+    - Ethernet16
+    - Ethernet17
+    mlag_role: primary
+    mlag_peer: BC-OOBM2
+    mlag_peer_mgmt_ip: 172.20.21.14
+    mlag_ip: 10.255.252.0
+    mlag_peer_ip: 10.255.252.1
+    tenants: {}
+    vlans: []
+  topology:
+    peers: []
+    vlans: []
+switch:
+  type: l2leaf
+  node_type_key: l2leaf
+  connected_endpoints: true
+  default_evpn_role: none
+  mlag_support: true
+  network_services_l2: true
+  network_services_l3: false
+  underlay_router: false
+  uplink_type: port-channel
+  vtep: false
+  ip_addressing:
+    router_id: ip_addressing/router-id.j2
+    mlag_ip_primary: ip_addressing/mlag-ip-primary.j2
+    mlag_ip_secondary: ip_addressing/mlag-ip-secondary.j2
+    mlag_l3_ip_primary: ip_addressing/mlag-l3-ip-primary.j2
+    mlag_l3_ip_secondary: ip_addressing/mlag-l3-ip-secondary.j2
+    p2p_uplinks_ip: ip_addressing/p2p-uplinks-ip.j2
+    p2p_uplinks_peer_ip: ip_addressing/p2p-uplinks-peer-ip.j2
+    vtep_ip_mlag: ip_addressing/vtep-ip-mlag.j2
+    vtep_ip: ip_addressing/vtep-ip.j2
+  interface_descriptions:
+    underlay_ethernet_interfaces: interface_descriptions/underlay/ethernet-interfaces.j2
+    underlay_port_channel_interfaces: interface_descriptions/underlay/port-channel-interfaces.j2
+    connected_endpoints_ethernet_interfaces: interface_descriptions/connected_endpoints/ethernet-interfaces.j2
+    connected_endpoints_port_channel_interfaces: interface_descriptions/connected_endpoints/port-channel-interfaces.j2
+    overlay_loopback_interface: interface_descriptions/loopback_interfaces/overlay-loopback.j2
+    vtep_loopback_interface: interface_descriptions/loopback_interfaces/vtep-loopback.j2
+  group: BC_OOBM
+  id: 1
+  mgmt_ip: 172.20.21.13/23
+  platform: vEOS-LAB
+  platform_settings:
+    platforms:
+    - default
+    reload_delay:
+      mlag: 300
+      non_mlag: 330
+    feature_support:
+      queue_monitor_length_notify: false
+  underlay_routing_protocol: ebgp
+  overlay_routing_protocol: ebgp
+  filter_tenants:
+  - all
+  filter_tags:
+  - all
+  spanning_tree_mode: mstp
+  spanning_tree_priority: 4096
+  igmp_snooping_enabled: true
+  max_uplink_switches: 0
+  max_parallel_uplinks: 1
+  raw_eos_cli: 'vlan 100
+
+    '
+  mlag: true
+  mlag_group: BC_OOBM
+  mlag_ibgp_origin_incomplete: true
+  mlag_peer_vlan: 4094
+  mlag_dual_primary_detection: false
+  mlag_interfaces:
+  - Ethernet16
+  - Ethernet17
+  mlag_role: primary
+  mlag_peer: BC-OOBM2
+  mlag_peer_mgmt_ip: 172.20.21.14
+  mlag_ip: 10.255.252.0
+  mlag_peer_ip: 10.255.252.1
+  tenants: {}
+  vlans: []
+topology:
+  peers: []
+  vlans: []
+playbook_dir: /home/avd/projects/bcproject/playbooks
+ansible_playbook_python: /usr/local/bin/python
+ansible_config_file: /home/avd/projects/bcproject/ansible.cfg
+groups:
+  all:
+  - CVP-ZTP
+  - CVP-SERVER
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-OOBM1
+  - BC-OOBM2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  ungrouped: []
+  CVP:
+  - CVP-ZTP
+  - CVP-SERVER
+  BC_DC:
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  - BC-OOBM1
+  - BC-OOBM2
+  BC_FABRIC_1:
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-OOBM1
+  - BC-OOBM2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_SPINES:
+  - BC-SPINE1
+  - BC-SPINE2
+  BC_L3LEAFS:
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_BORDER_RACK1:
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  BC_DATA_RACK2:
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  BC_DATA_RACK3:
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  BC_STO_RACK1:
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  BC_STO_RACK2:
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_OOBM:
+  - BC-OOBM1
+  - BC-OOBM2
+  BC-OOBM:
+  - BC-OOBM1
+  - BC-OOBM2
+  EOS:
+  - BC-SPINE1
+  - BC-SPINE2
+  - BC-OOBM1
+  - BC-OOBM2
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+  BC_TENANTS_NETWORKS:
+  - BC-BORDERLEAF1
+  - BC-BORDERLEAF2
+  - BC-DATALEAF3
+  - BC-DATALEAF4
+  - BC-DATALEAF5
+  - BC-DATALEAF6
+  - BC-STOLEAF1
+  - BC-STOLEAF2
+  - BC-STOLEAF3
+  - BC-STOLEAF4
+omit: __omit_place_holder__2d873bc3042e4881ff1bdf881744a6f8ba890b98
+ansible_version:
+  string: 2.11.6
+  full: 2.11.6
+  major: 2
+  minor: 11
+  revision: 6
+ansible_check_mode: false
+ansible_diff_mode: false
+ansible_forks: 5
+ansible_inventory_sources:
+- /home/avd/projects/bcproject/inventories/bc-dc/inventory.yml
+ansible_skip_tags: []
+ansible_run_tags:
+- build
+ansible_verbosity: 0

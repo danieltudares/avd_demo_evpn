@@ -1,0 +1,5 @@
+#Endpoint keys/info
+
+connected_endpoints_keys:
+  bc_servers_rack5:
+    type: storage_servers

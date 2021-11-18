@@ -1,0 +1,6 @@
+---
+#Endpoint keys/info
+
+connected_endpoints_keys:
+  bc_servers_rack3:
+    type: data_servers

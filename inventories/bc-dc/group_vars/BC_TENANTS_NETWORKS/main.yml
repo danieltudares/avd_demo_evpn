@@ -1,0 +1,7 @@
+# BC Tenants Networks
+# Documentation of Tenant specific information - Vlans/VRFs
+
+tenants:
+  BC_BLUE: "{{ BC_BLUE }}"
+  BC_RED: "{{ BC_RED }}"
+  BC_STO: "{{ BC_STO }}"

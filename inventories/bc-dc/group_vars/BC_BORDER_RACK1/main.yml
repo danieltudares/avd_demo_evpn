@@ -1,0 +1,5 @@
+---
+#Endpoint keys/info
+connected_endpoints_keys:
+  bc_core_firewalls:
+    type: core_firewall

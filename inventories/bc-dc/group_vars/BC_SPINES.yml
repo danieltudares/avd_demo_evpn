@@ -1,0 +1,24 @@
+---
+type: spine
+
+spine:
+  defaults:
+    platform: vEOS-LAB
+    bgp_as: 65001
+    loopback_ipv4_pool: 10.200.0.0/24
+    leaf_as_range: 65101-65132
+  nodes:
+    BC-SPINE1:
+      id: 1
+      mgmt_ip: 172.20.21.11/23
+    BC-SPINE2:
+      id: 2
+      mgmt_ip: 172.20.21.12/23
+
+spine_bgp_defaults:
+  #  - update wait-for-convergence
+  #  - update wait-install
+  - no bgp default ipv4-unicast
+  - distance bgp 20 200 200
+  - graceful-restart restart-time 300
+  - graceful-restart

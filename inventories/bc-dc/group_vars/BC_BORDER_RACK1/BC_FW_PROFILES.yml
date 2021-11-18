@@ -1,0 +1,10 @@
+#Device Definitions for BC DC
+port_profiles:
+
+  BC_CoreFW_Inside:
+    mode: trunk
+    vlans: "1000-1010"
+
+  BC_CoreFW_Outside:
+    mode: trunk
+    vlans: "2000"

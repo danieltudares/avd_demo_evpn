@@ -1,0 +1,650 @@
+router_bgp:
+  as: '65103'
+  router_id: 10.200.1.5
+  bgp_defaults:
+  - maximum-paths 6 ecmp 6
+  peer_groups:
+    MLAG-IPv4-UNDERLAY-PEER:
+      type: ipv4
+      remote_as: '65103'
+      next_hop_self: true
+      password: 4b21pAdCvWeAqpcKDFMdWw==
+      maximum_routes: 12000
+      send_community: all
+      route_map_in: RM-MLAG-PEER-IN
+    IPv4-UNDERLAY-PEERS:
+      type: ipv4
+      password: AQQvKeimxJu+uGQ/yYvv9w==
+      maximum_routes: 12000
+      send_community: all
+    EVPN-OVERLAY-PEERS:
+      type: evpn
+      update_source: Loopback0
+      bfd: true
+      ebgp_multihop: '3'
+      password: q+VNViP5i4rVjW1cxFv2wA==
+      send_community: all
+      maximum_routes: 0
+  address_family_ipv4:
+    peer_groups:
+      MLAG-IPv4-UNDERLAY-PEER:
+        activate: true
+      IPv4-UNDERLAY-PEERS:
+        activate: true
+      EVPN-OVERLAY-PEERS:
+        activate: false
+  neighbors:
+    10.255.251.9:
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: BC-DATALEAF6
+    172.31.255.16:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65001'
+      description: BC-SPINE1_Ethernet5
+    172.31.255.18:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65001'
+      description: BC-SPINE2_Ethernet5
+    10.200.0.1:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: BC-SPINE1
+      remote_as: '65001'
+    10.200.0.2:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: BC-SPINE2
+      remote_as: '65001'
+  redistribute_routes:
+    connected:
+      route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+      EVPN-OVERLAY-PEERS:
+        activate: true
+  vrfs:
+    BC_BLUE_ZONE_A:
+      router_id: 10.200.1.5
+      rd: 10.200.1.5:10
+      route_targets:
+        import:
+          evpn:
+          - '10:10'
+        export:
+          evpn:
+          - '10:10'
+      neighbors:
+        10.255.251.9:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+      redistribute_routes:
+      - connected
+    BC_BLUE_ZONE_B:
+      router_id: 10.200.1.5
+      rd: 10.200.1.5:11
+      route_targets:
+        import:
+          evpn:
+          - '11:11'
+        export:
+          evpn:
+          - '11:11'
+      neighbors:
+        10.255.251.9:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+      redistribute_routes:
+      - connected
+    BC_RED_ZONE_A:
+      router_id: 10.200.1.5
+      rd: 10.200.1.5:20
+      route_targets:
+        import:
+          evpn:
+          - '20:20'
+        export:
+          evpn:
+          - '20:20'
+      neighbors:
+        10.255.251.9:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+      redistribute_routes:
+      - connected
+    BC_RED_ZONE_B:
+      router_id: 10.200.1.5
+      rd: 10.200.1.5:21
+      route_targets:
+        import:
+          evpn:
+          - '21:21'
+        export:
+          evpn:
+          - '21:21'
+      neighbors:
+        10.255.251.9:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+      redistribute_routes:
+      - connected
+  vlan_aware_bundles:
+    BC_BLUE_ZONE_A:
+      rd: 10.200.1.5:10
+      route_targets:
+        both:
+        - '10:10'
+      redistribute_routes:
+      - learned
+      vlan: 110-112
+    BC_BLUE_ZONE_B:
+      rd: 10.200.1.5:11
+      route_targets:
+        both:
+        - '11:11'
+      redistribute_routes:
+      - learned
+      vlan: 120-121
+    BC_VMOTION:
+      tenant: BC_BLUE
+      rd: 10.200.1.5:50160
+      route_targets:
+        both:
+        - 50160:50160
+      redistribute_routes:
+      - learned
+      vlan: 160
+    BC_NFS:
+      tenant: BC_BLUE
+      rd: 10.200.1.5:10161
+      route_targets:
+        both:
+        - 10161:10161
+      redistribute_routes:
+      - learned
+      vlan: 161
+    BC_RED_ZONE_A:
+      rd: 10.200.1.5:20
+      route_targets:
+        both:
+        - '20:20'
+      redistribute_routes:
+      - learned
+      vlan: 210-211
+    BC_RED_ZONE_B:
+      rd: 10.200.1.5:21
+      route_targets:
+        both:
+        - '21:21'
+      redistribute_routes:
+      - learned
+      vlan: 250-251
+static_routes:
+- vrf: mgmt
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 172.20.20.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+daemon_terminattr:
+  cvaddrs:
+  - 172.20.21.10:9910
+  cvauth:
+    method: key
+    key: arista
+  cvvrf: mgmt
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  disable_aaa: false
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+spanning_tree:
+  mode: mstp
+  mst_instances:
+    '0':
+      priority: 4096
+  no_spanning_tree_vlan: 4093-4094
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$LJcUms0WZ9UyskIF$b6jUZMJmruk95uA0GPood4z4Tgb2aHKqnRhm7HyHl3kjsgE6mA5.V3W/vwl16WeICFvWWz1vkU1zQET0CbILG0
+  cvpadmin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$pWE0vYbIJTmV0ZWc$nIrbLNYS3pIgpFj9vuzkchwyA19betlJZjWR.KE95GHwOALliiUUAu92JUWg9jQ12Yd3.aTQmWf.gRe2VNo2Y.
+clock:
+  timezone: America/Toronto
+vrfs:
+  mgmt:
+    ip_routing: false
+  BC_BLUE_ZONE_A:
+    tenant: BC_BLUE
+    ip_routing: true
+  BC_BLUE_ZONE_B:
+    tenant: BC_BLUE
+    ip_routing: true
+  BC_RED_ZONE_A:
+    tenant: BC_RED
+    ip_routing: true
+  BC_RED_ZONE_B:
+    tenant: BC_RED
+    ip_routing: true
+management_interfaces:
+  Management1:
+    description: oob_management
+    shutdown: false
+    vrf: mgmt
+    ip_address: 172.20.21.105/23
+    gateway: 172.20.20.1
+    type: oob
+management_api_http:
+  enable_vrfs:
+    mgmt: {}
+  enable_https: true
+vlans:
+  4093:
+    tenant: system
+    name: LEAF_PEER_L3
+    trunk_groups:
+    - LEAF_PEER_L3
+  4094:
+    tenant: system
+    name: MLAG_PEER
+    trunk_groups:
+    - MLAG
+  110:
+    tenant: BC_BLUE
+    name: BC_BLUE_ZONE_A_1
+  111:
+    tenant: BC_BLUE
+    name: BC_BLUE_ZONE_A_2
+  112:
+    tenant: BC_BLUE
+    name: BC_BLUE_ZONE_A_3
+  3009:
+    tenant: BC_BLUE
+    name: MLAG_iBGP_BC_BLUE_ZONE_A
+    trunk_groups:
+    - LEAF_PEER_L3
+  120:
+    tenant: BC_BLUE
+    name: BC_BLUE_ZONE_B_1
+  121:
+    tenant: BC_BLUE
+    name: BC_BLUE_ZONE_B_2
+  3010:
+    tenant: BC_BLUE
+    name: MLAG_iBGP_BC_BLUE_ZONE_B
+    trunk_groups:
+    - LEAF_PEER_L3
+  160:
+    tenant: BC_BLUE
+    name: BC_VMOTION
+  161:
+    tenant: BC_BLUE
+    name: BC_NFS
+  210:
+    tenant: BC_RED
+    name: BC_RED_ZONE_A_1
+  211:
+    tenant: BC_RED
+    name: BC_RED_ZONE_A_2
+  3019:
+    tenant: BC_RED
+    name: MLAG_iBGP_BC_RED_ZONE_A
+    trunk_groups:
+    - LEAF_PEER_L3
+  250:
+    tenant: BC_RED
+    name: BC_RED_ZONE_B_1
+  251:
+    tenant: BC_RED
+    name: BC_RED_ZONE_B_2
+  3020:
+    tenant: BC_RED
+    name: MLAG_iBGP_BC_RED_ZONE_B
+    trunk_groups:
+    - LEAF_PEER_L3
+vlan_interfaces:
+  Vlan4093:
+    description: MLAG_PEER_L3_PEERING
+    shutdown: false
+    ip_address: 10.255.251.8/31
+    mtu: 1500
+  Vlan4094:
+    description: MLAG_PEER
+    shutdown: false
+    ip_address: 10.255.252.8/31
+    no_autostate: true
+    mtu: 1500
+  Vlan110:
+    tenant: BC_BLUE
+    tags:
+    - blue_zone
+    - blue_zone_a_1
+    description: BC_BLUE_ZONE_A_1
+    shutdown: false
+    vrf: BC_BLUE_ZONE_A
+    ip_address_virtual: 10.1.10.1/24
+    struct_cfg:
+      access_group_in: leaf_acl
+    access_group_in: leaf_acl
+  Vlan111:
+    tenant: BC_BLUE
+    tags:
+    - blue_zone
+    - blue_zone_a_2
+    description: BC_BLUE_ZONE_A_2
+    shutdown: false
+    vrf: BC_BLUE_ZONE_A
+    ip_address_virtual: 10.1.11.1/24
+  Vlan112:
+    tenant: BC_BLUE
+    tags:
+    - blue_zone
+    - blue_zone_a_3
+    description: BC_BLUE_ZONE_A_3
+    shutdown: false
+    vrf: BC_BLUE_ZONE_A
+    ip_address_virtual: 10.1.12.1/24
+  Vlan3009:
+    tenant: BC_BLUE
+    type: underlay_peering
+    shutdown: false
+    description: 'MLAG_PEER_L3_iBGP: vrf BC_BLUE_ZONE_A'
+    vrf: BC_BLUE_ZONE_A
+    ip_address: 10.255.251.8/31
+    mtu: 1500
+  Vlan120:
+    tenant: BC_BLUE
+    tags:
+    - blue_zone
+    - blue_zone_b_1
+    description: BC_BLUE_ZONE_B_1
+    shutdown: false
+    vrf: BC_BLUE_ZONE_B
+    ip_address_virtual: 10.1.20.1/24
+  Vlan121:
+    tenant: BC_BLUE
+    tags:
+    - blue_zone
+    - blue_zone_b_2
+    description: BC_BLUE_ZONE_B_2
+    shutdown: false
+    vrf: BC_BLUE_ZONE_B
+    ip_address_virtual: 10.1.21.1/24
+  Vlan3010:
+    tenant: BC_BLUE
+    type: underlay_peering
+    shutdown: false
+    description: 'MLAG_PEER_L3_iBGP: vrf BC_BLUE_ZONE_B'
+    vrf: BC_BLUE_ZONE_B
+    ip_address: 10.255.251.8/31
+    mtu: 1500
+  Vlan210:
+    tenant: BC_RED
+    tags:
+    - red_zone
+    - red_zone_a_1
+    description: BC_RED_ZONE_A_1
+    shutdown: false
+    vrf: BC_RED_ZONE_A
+    ip_address_virtual: 10.2.10.1/24
+  Vlan211:
+    tenant: BC_RED
+    tags:
+    - red_zone
+    - red_zone_a_2
+    description: BC_RED_ZONE_A_2
+    shutdown: false
+    vrf: BC_RED_ZONE_A
+    ip_address_virtual: 10.2.11.1/24
+  Vlan3019:
+    tenant: BC_RED
+    type: underlay_peering
+    shutdown: false
+    description: 'MLAG_PEER_L3_iBGP: vrf BC_RED_ZONE_A'
+    vrf: BC_RED_ZONE_A
+    ip_address: 10.255.251.8/31
+    mtu: 1500
+  Vlan250:
+    tenant: BC_RED
+    tags:
+    - red_zone
+    - red_zone_b_1
+    description: BC_RED_ZONE_B_1
+    shutdown: false
+    vrf: BC_RED_ZONE_B
+    ip_address_virtual: 10.2.50.1/24
+  Vlan251:
+    tenant: BC_RED
+    tags:
+    - red_zone
+    - red_zone_b_2
+    description: BC_RED_ZONE_B_2
+    shutdown: false
+    vrf: BC_RED_ZONE_B
+    ip_address_virtual: 10.2.51.1/24
+  Vlan3020:
+    tenant: BC_RED
+    type: underlay_peering
+    shutdown: false
+    description: 'MLAG_PEER_L3_iBGP: vrf BC_RED_ZONE_B'
+    vrf: BC_RED_ZONE_B
+    ip_address: 10.255.251.8/31
+    mtu: 1500
+port_channel_interfaces:
+  Port-Channel12:
+    description: MLAG_PEER_BC-DATALEAF6_Po12
+    type: switched
+    shutdown: false
+    vlans: 2-4094
+    mode: trunk
+    trunk_groups:
+    - LEAF_PEER_L3
+    - MLAG
+  Port-Channel3:
+    description: data_server_1_portchannel-tenant_blue_zoneA
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 110,111,112
+    native_vlan: 110
+    mlag: 3
+  Port-Channel4:
+    description: data_server_1_portchannel-tenant_blue_zoneB
+    type: switched
+    shutdown: false
+    mlag: 4
+  Port-Channel5:
+    description: data_server_2_portchannel-tenant_blue_zoneA
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 110,111,112
+    native_vlan: 110
+    mlag: 5
+  Port-Channel6:
+    description: data_server_2_portchannel-tenant_blue_zoneB
+    type: switched
+    shutdown: false
+    mlag: 6
+ethernet_interfaces:
+  Ethernet12:
+    peer: BC-DATALEAF6
+    peer_interface: Ethernet12
+    peer_type: mlag_peer
+    description: MLAG_PEER_BC-DATALEAF6_Ethernet12
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 12
+      mode: active
+  Ethernet13:
+    peer: BC-DATALEAF6
+    peer_interface: Ethernet13
+    peer_type: mlag_peer
+    description: MLAG_PEER_BC-DATALEAF6_Ethernet13
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 12
+      mode: active
+  Ethernet1:
+    peer: BC-SPINE1
+    peer_interface: Ethernet5
+    peer_type: spine
+    description: P2P_LINK_TO_BC-SPINE1_Ethernet5
+    mtu: 1500
+    type: routed
+    shutdown: false
+    ip_address: 172.31.255.17/31
+  Ethernet2:
+    peer: BC-SPINE2
+    peer_interface: Ethernet5
+    peer_type: spine
+    description: P2P_LINK_TO_BC-SPINE2_Ethernet5
+    mtu: 1500
+    type: routed
+    shutdown: false
+    ip_address: 172.31.255.19/31
+  Ethernet3:
+    peer: data_server_1
+    peer_interface: Eth3
+    peer_type: data_servers
+    description: data_server_1_Eth3
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 110,111,112
+    native_vlan: 110
+    channel_group:
+      id: 3
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet4:
+    peer: data_server_1
+    peer_interface: Eth5
+    peer_type: data_servers
+    description: data_server_1_Eth5
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 4
+      mode: active
+  Ethernet5:
+    peer: data_server_2
+    peer_interface: Eth3
+    peer_type: data_servers
+    description: data_server_2_Eth3
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 110,111,112
+    native_vlan: 110
+    channel_group:
+      id: 5
+      mode: active
+    eos_cli: 'no snmp trap link-change
+
+      '
+  Ethernet6:
+    peer: data_server_2
+    peer_interface: Eth5
+    peer_type: data_servers
+    description: data_server_2_Eth5
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 6
+      mode: active
+mlag_configuration:
+  domain_id: BC_DATA_RACK3
+  local_interface: Vlan4094
+  peer_address: 10.255.252.9
+  peer_link: Port-Channel12
+  reload_delay_mlag: 300
+  reload_delay_non_mlag: 330
+route_maps:
+  RM-MLAG-PEER-IN:
+    sequence_numbers:
+      10:
+        type: permit
+        set:
+        - origin incomplete
+        description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+  RM-CONN-2-BGP:
+    sequence_numbers:
+      10:
+        type: permit
+        match:
+        - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+loopback_interfaces:
+  Loopback0:
+    description: EVPN_Overlay_Peering
+    shutdown: false
+    ip_address: 10.200.1.5/32
+  Loopback1:
+    description: VTEP_VXLAN_Tunnel_Source
+    shutdown: false
+    ip_address: 192.168.254.5/32
+  Loopback100:
+    description: BC_BLUE_ZONE_A_VTEP_DIAGNOSTICS
+    shutdown: false
+    vrf: BC_BLUE_ZONE_A
+    ip_address: 10.255.1.5/32
+prefix_lists:
+  PL-LOOPBACKS-EVPN-OVERLAY:
+    sequence_numbers:
+      10:
+        action: permit 10.200.1.0/24 eq 32
+      20:
+        action: permit 192.168.254.0/24 eq 32
+router_bfd:
+  multihop:
+    interval: 1200
+    min_rx: 1200
+    multiplier: 3
+ip_igmp_snooping:
+  globally_enabled: true
+ip_virtual_router_mac_address: 00:dc:00:00:00:0a
+virtual_source_nat_vrfs:
+  BC_BLUE_ZONE_A:
+    ip_address: 10.255.1.5
+vxlan_interface:
+  Vxlan1:
+    description: BC-DATALEAF5_VTEP
+    vxlan:
+      source_interface: Loopback1
+      virtual_router_encapsulation_mac_address: mlag-system-id
+      udp_port: 4789
+      vlans:
+        110:
+          vni: 10110
+        111:
+          vni: 10111
+        112:
+          vni: 10112
+        120:
+          vni: 10120
+        121:
+          vni: 10121
+        160:
+          vni: 50160
+        161:
+          vni: 10161
+        210:
+          vni: 20210
+        211:
+          vni: 20211
+        250:
+          vni: 20250
+        251:
+          vni: 20251
+      vrfs:
+        BC_BLUE_ZONE_A:
+          vni: 10
+        BC_BLUE_ZONE_B:
+          vni: 11
+        BC_RED_ZONE_A:
+          vni: 20
+        BC_RED_ZONE_B:
+          vni: 21

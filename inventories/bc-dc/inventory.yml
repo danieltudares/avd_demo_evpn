@@ -1,0 +1,71 @@
+---
+all:
+  children:
+    CVP:
+      hosts:
+        CVP-ZTP:
+          ansible_host: 172.20.21.10
+          ansible_user: root
+          #ansible_password: xxx
+          ansible_python_interpreter: $(which python)
+        CVP-SERVER:
+          ansible_httpapi_host: 172.20.21.10
+          ansible_host: 172.20.21.10
+
+    BC_DC:
+      children:
+        BC_FABRIC_1:
+          children:
+            BC_SPINES:
+              hosts:
+                BC-SPINE1:
+                  ansible_host: 172.20.21.11
+                BC-SPINE2:
+                  ansible_host: 172.20.21.12
+            BC_L3LEAFS:
+              children:
+                BC_BORDER_RACK1:
+                  hosts:
+                    BC-BORDERLEAF1:
+                      ansible_host: 172.20.21.101
+                    BC-BORDERLEAF2:
+                      ansible_host: 172.20.21.102
+                BC_DATA_RACK2:
+                  hosts:
+                    BC-DATALEAF3:
+                      ansible_host: 172.20.21.103
+                    BC-DATALEAF4:
+                      ansible_host: 172.20.21.104
+                BC_DATA_RACK3:
+                  hosts:
+                    BC-DATALEAF5:
+                      ansible_host: 172.20.21.105
+                    BC-DATALEAF6:
+                      ansible_host: 172.20.21.106
+                BC_STO_RACK1:
+                  hosts:
+                    BC-STOLEAF1:
+                      ansible_host: 172.20.21.111
+                    BC-STOLEAF2:
+                      ansible_host: 172.20.21.112
+                BC_STO_RACK2:
+                  hosts:
+                    BC-STOLEAF3:
+                      ansible_host: 172.20.21.113
+                    BC-STOLEAF4:
+                      ansible_host: 172.20.21.114
+            BC_OOBM:
+              children:
+                BC-OOBM:
+                  hosts:
+                    BC-OOBM1:
+                      ansible_host: 172.20.21.13
+                    BC-OOBM2:
+                      ansible_host: 172.20.21.14
+
+        EOS:
+          children:
+            BC_FABRIC_1:
+        BC_TENANTS_NETWORKS:
+          children:
+            BC_L3LEAFS:

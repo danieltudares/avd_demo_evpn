@@ -1,0 +1,63 @@
+---
+ztp:
+  default:
+    registration: 'https://172.20.21.10/ztp/bootstrap'
+    gateway: 172.20.20.1
+    nameservers:
+      - '172.20.20.6'
+      - '1.1.1.1'
+  general:
+    subnets:
+      - network: 172.20.20.0
+        netmask: 255.255.254.0
+        gateway: 172.20.20.1
+        nameservers:
+          - '172.20.20.6'
+          - '1.1.1.1'
+        start: 172.20.21.200
+        end: 172.20.21.202
+        lease_time: 100
+  clients:
+  # AVD/CVP Integration
+    - name: BC-SPINE1
+      mac: '50:01:00:01:11:00'
+      ip4: 172.20.21.11
+    - name: BC-SPINE2
+      mac: '50:01:00:02:22:00'
+      ip4: 172.20.21.12
+    - name: BC-BORDERLEAF1
+      mac: '50:01:00:01:00:11'
+      ip4: 172.20.21.101
+    - name: BC-BORDERLEAF2
+      mac: '50:01:00:01:00:22'
+      ip4: 172.20.21.102
+    - name: BC-DATALEAF3
+      mac: '50:01:00:01:00:33'
+      ip4: 172.20.21.103
+    - name: BC-DATALEAF4
+      mac: '50:01:00:01:00:44'
+      ip4: 172.20.21.104
+    - name: BC-DATALEAF5
+      mac: '50:01:00:01:00:55'
+      ip4: 172.20.21.105
+    - name: BC-DATALEAF6
+      mac: '50:01:00:01:00:66'
+      ip4: 172.20.21.106
+    - name: BC-STOLEAF1
+      mac: '50:01:00:02:00:11'
+      ip4: 172.20.21.111
+    - name: BC-STOLEAF2
+      mac: '50:01:00:02:00:22'
+      ip4: 172.20.21.112
+    - name: BC-STOLEAF3
+      mac: '50:01:00:02:00:33'
+      ip4: 172.20.21.113
+    - name: BC-STOLEAF4
+      mac: '50:01:00:02:00:44'
+      ip4: 172.20.21.114
+    - name: BC-OOBM1
+      mac: '50:01:00:35:8f:cf'
+      ip4: 172.20.21.13
+    - name: BC-OOBM2
+      mac: '50:01:00:48:1f:cc'
+      ip4: 172.20.21.14

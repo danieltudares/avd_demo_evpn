@@ -1,0 +1,15 @@
+---
+- name: cv_facts lab
+  hosts: CVP-SERVER
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: "Gather CVP facts {{inventory_hostname}}"
+      arista.cvp.cv_facts:
+        facts:
+          configlets
+      register: cv_facts
+
+    - name: "Print out facts from {{inventory_hostname}}"
+      debug:
+        msg: "{{cv_facts}}"

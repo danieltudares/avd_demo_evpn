@@ -1,0 +1,15 @@
+
+ansible_connection: httpapi
+ansible_httpapi_use_ssl: True
+ansible_httpapi_validate_certs: False
+ansible_user: cvpadmin
+#nsible_password: xxx
+ansible_network_os: eos
+ansible_httpapi_port: 443
+ansible_python_interpreter: $(which python)
+
+container_root: 'BC_FABRIC_1'
+configlets_prefix: 'BC-AVD'
+device_filter: 'BC'
+state: present
+cv_collection: v3

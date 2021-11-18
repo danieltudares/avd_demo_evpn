@@ -1,0 +1,79 @@
+---
+CVP_DEVICES:
+  - fqdn: BC-BORDERLEAF1
+    parentContainerName: BC_BORDER_RACK1
+    configlets:
+      - BC-AVD_BC-BORDERLEAF1
+  - fqdn: BC-BORDERLEAF2
+    parentContainerName: BC_BORDER_RACK1
+    configlets:
+      - BC-AVD_BC-BORDERLEAF2
+  - fqdn: BC-DATALEAF3
+    parentContainerName: BC_DATA_RACK2
+    configlets:
+      - BC-AVD_BC-DATALEAF3
+  - fqdn: BC-DATALEAF4
+    parentContainerName: BC_DATA_RACK2
+    configlets:
+      - BC-AVD_BC-DATALEAF4
+  - fqdn: BC-DATALEAF5
+    parentContainerName: BC_DATA_RACK3
+    configlets:
+      - BC-AVD_BC-DATALEAF5
+  - fqdn: BC-DATALEAF6
+    parentContainerName: BC_DATA_RACK3
+    configlets:
+      - BC-AVD_BC-DATALEAF6
+  - fqdn: BC-OOBM1
+    parentContainerName: BC-OOBM
+    configlets:
+      - BC-AVD_BC-OOBM1
+  - fqdn: BC-OOBM2
+    parentContainerName: BC-OOBM
+    configlets:
+      - BC-AVD_BC-OOBM2
+  - fqdn: BC-SPINE1
+    parentContainerName: BC_SPINES
+    configlets:
+      - BC-AVD_BC-SPINE1
+  - fqdn: BC-SPINE2
+    parentContainerName: BC_SPINES
+    configlets:
+      - BC-AVD_BC-SPINE2
+  - fqdn: BC-STOLEAF1
+    parentContainerName: BC_STO_RACK1
+    configlets:
+      - BC-AVD_BC-STOLEAF1
+  - fqdn: BC-STOLEAF2
+    parentContainerName: BC_STO_RACK1
+    configlets:
+      - BC-AVD_BC-STOLEAF2
+  - fqdn: BC-STOLEAF3
+    parentContainerName: BC_STO_RACK2
+    configlets:
+      - BC-AVD_BC-STOLEAF3
+  - fqdn: BC-STOLEAF4
+    parentContainerName: BC_STO_RACK2
+    configlets:
+      - BC-AVD_BC-STOLEAF4
+CVP_CONTAINERS:
+  BC-OOBM:
+    parentContainerName: BC_OOBM
+  BC_BORDER_RACK1:
+    parentContainerName: BC_L3LEAFS
+  BC_DATA_RACK2:
+    parentContainerName: BC_L3LEAFS
+  BC_DATA_RACK3:
+    parentContainerName: BC_L3LEAFS
+  BC_FABRIC_1:
+    parentContainerName: Tenant
+  BC_L3LEAFS:
+    parentContainerName: BC_FABRIC_1
+  BC_OOBM:
+    parentContainerName: BC_FABRIC_1
+  BC_SPINES:
+    parentContainerName: BC_FABRIC_1
+  BC_STO_RACK1:
+    parentContainerName: BC_L3LEAFS
+  BC_STO_RACK2:
+    parentContainerName: BC_L3LEAFS

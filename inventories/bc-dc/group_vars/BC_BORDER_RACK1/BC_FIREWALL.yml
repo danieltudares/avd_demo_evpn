@@ -1,0 +1,43 @@
+#Firewall Connectivity Definintions for BC DC
+
+bc_core_firewalls:
+
+  BC-CORE-PAN-FW-01:
+    rack: BORDER_RACK_1
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]
+        switch_ports: [ Ethernet3, Ethernet3 ]
+        switches: [ BC-BORDERLEAF1, BC-BORDERLEAF2 ]
+        profile: BC_CoreFW_Inside
+        port_channel:
+          state: present
+          description: PortChannel-inside
+          mode: active
+      - endpoint_ports: [ Eth3, Eth4 ]
+        switch_ports: [ Ethernet4, Ethernet4 ]
+        switches: [ BC-BORDERLEAF1, BC-BORDERLEAF2 ]
+        profile: BC_CoreFW_Outside
+        port_channel:
+          state: present
+          description: PortChannel-outside
+          mode: active
+
+  BC-CORE-PAN-FW-02:
+    rack: BORDER_RACK_1
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]
+        switch_ports: [ Ethernet5, Ethernet5 ]
+        switches: [ BC-BORDERLEAF1, BC-BORDERLEAF2 ]
+        profile: BC_CoreFW_Inside
+        port_channel:
+          state: present
+          description: PortChannel-inside
+          mode: active
+      - endpoint_ports: [ Eth3, Eth4 ]
+        switch_ports: [ Ethernet6, Ethernet6 ]
+        switches: [ BC-BORDERLEAF1, BC-BORDERLEAF2 ]
+        profile: BC_CoreFW_Outside
+        port_channel:
+          state: present
+          description: PortChannel-outside
+          mode: active

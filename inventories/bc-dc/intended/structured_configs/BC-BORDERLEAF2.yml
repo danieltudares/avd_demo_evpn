@@ -1,0 +1,345 @@
+router_bgp:
+  as: '65101'
+  router_id: 10.200.1.2
+  bgp_defaults:
+  - maximum-paths 6 ecmp 6
+  peer_groups:
+    MLAG-IPv4-UNDERLAY-PEER:
+      type: ipv4
+      remote_as: '65101'
+      next_hop_self: true
+      password: 4b21pAdCvWeAqpcKDFMdWw==
+      maximum_routes: 12000
+      send_community: all
+      route_map_in: RM-MLAG-PEER-IN
+    IPv4-UNDERLAY-PEERS:
+      type: ipv4
+      password: AQQvKeimxJu+uGQ/yYvv9w==
+      maximum_routes: 12000
+      send_community: all
+    EVPN-OVERLAY-PEERS:
+      type: evpn
+      update_source: Loopback0
+      bfd: true
+      ebgp_multihop: '3'
+      password: q+VNViP5i4rVjW1cxFv2wA==
+      send_community: all
+      maximum_routes: 0
+  address_family_ipv4:
+    peer_groups:
+      MLAG-IPv4-UNDERLAY-PEER:
+        activate: true
+      IPv4-UNDERLAY-PEERS:
+        activate: true
+      EVPN-OVERLAY-PEERS:
+        activate: false
+  neighbors:
+    10.255.251.0:
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: BC-BORDERLEAF1
+    172.31.255.4:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65001'
+      description: BC-SPINE1_Ethernet2
+    172.31.255.6:
+      peer_group: IPv4-UNDERLAY-PEERS
+      remote_as: '65001'
+      description: BC-SPINE2_Ethernet2
+    10.200.0.1:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: BC-SPINE1
+      remote_as: '65001'
+    10.200.0.2:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: BC-SPINE2
+      remote_as: '65001'
+  redistribute_routes:
+    connected:
+      route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+      EVPN-OVERLAY-PEERS:
+        activate: true
+  vlan_aware_bundles:
+    BC_VMOTION:
+      tenant: BC_BLUE
+      rd: 10.200.1.2:50160
+      route_targets:
+        both:
+        - 50160:50160
+      redistribute_routes:
+      - learned
+      vlan: 160
+    BC_NFS:
+      tenant: BC_BLUE
+      rd: 10.200.1.2:10161
+      route_targets:
+        both:
+        - 10161:10161
+      redistribute_routes:
+      - learned
+      vlan: 161
+static_routes:
+- vrf: mgmt
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 172.20.20.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+daemon_terminattr:
+  cvaddrs:
+  - 172.20.21.10:9910
+  cvauth:
+    method: key
+    key: arista
+  cvvrf: mgmt
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  disable_aaa: false
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+spanning_tree:
+  mode: mstp
+  mst_instances:
+    '0':
+      priority: 4096
+  no_spanning_tree_vlan: 4093-4094
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$LJcUms0WZ9UyskIF$b6jUZMJmruk95uA0GPood4z4Tgb2aHKqnRhm7HyHl3kjsgE6mA5.V3W/vwl16WeICFvWWz1vkU1zQET0CbILG0
+  cvpadmin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$pWE0vYbIJTmV0ZWc$nIrbLNYS3pIgpFj9vuzkchwyA19betlJZjWR.KE95GHwOALliiUUAu92JUWg9jQ12Yd3.aTQmWf.gRe2VNo2Y.
+clock:
+  timezone: America/Toronto
+vrfs:
+  mgmt:
+    ip_routing: false
+management_interfaces:
+  Management1:
+    description: oob_management
+    shutdown: false
+    vrf: mgmt
+    ip_address: 172.20.21.102/23
+    gateway: 172.20.20.1
+    type: oob
+management_api_http:
+  enable_vrfs:
+    mgmt: {}
+  enable_https: true
+vlans:
+  4093:
+    tenant: system
+    name: LEAF_PEER_L3
+    trunk_groups:
+    - LEAF_PEER_L3
+  4094:
+    tenant: system
+    name: MLAG_PEER
+    trunk_groups:
+    - MLAG
+  160:
+    tenant: BC_BLUE
+    name: BC_VMOTION
+  161:
+    tenant: BC_BLUE
+    name: BC_NFS
+vlan_interfaces:
+  Vlan4093:
+    description: MLAG_PEER_L3_PEERING
+    shutdown: false
+    ip_address: 10.255.251.1/31
+    mtu: 1500
+  Vlan4094:
+    description: MLAG_PEER
+    shutdown: false
+    ip_address: 10.255.252.1/31
+    no_autostate: true
+    mtu: 1500
+port_channel_interfaces:
+  Port-Channel12:
+    description: MLAG_PEER_BC-BORDERLEAF1_Po12
+    type: switched
+    shutdown: false
+    vlans: 2-4094
+    mode: trunk
+    trunk_groups:
+    - LEAF_PEER_L3
+    - MLAG
+  Port-Channel3:
+    description: BC-CORE-PAN-FW-01_PortChannel-inside
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 1000-1010
+    mlag: 3
+  Port-Channel4:
+    description: BC-CORE-PAN-FW-01_PortChannel-outside
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 2000
+    mlag: 4
+  Port-Channel5:
+    description: BC-CORE-PAN-FW-02_PortChannel-inside
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 1000-1010
+    mlag: 5
+  Port-Channel6:
+    description: BC-CORE-PAN-FW-02_PortChannel-outside
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 2000
+    mlag: 6
+ethernet_interfaces:
+  Ethernet12:
+    peer: BC-BORDERLEAF1
+    peer_interface: Ethernet12
+    peer_type: mlag_peer
+    description: MLAG_PEER_BC-BORDERLEAF1_Ethernet12
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 12
+      mode: active
+  Ethernet13:
+    peer: BC-BORDERLEAF1
+    peer_interface: Ethernet13
+    peer_type: mlag_peer
+    description: MLAG_PEER_BC-BORDERLEAF1_Ethernet13
+    type: switched
+    shutdown: false
+    channel_group:
+      id: 12
+      mode: active
+  Ethernet1:
+    peer: BC-SPINE1
+    peer_interface: Ethernet2
+    peer_type: spine
+    description: P2P_LINK_TO_BC-SPINE1_Ethernet2
+    mtu: 1500
+    type: routed
+    shutdown: false
+    ip_address: 172.31.255.5/31
+  Ethernet2:
+    peer: BC-SPINE2
+    peer_interface: Ethernet2
+    peer_type: spine
+    description: P2P_LINK_TO_BC-SPINE2_Ethernet2
+    mtu: 1500
+    type: routed
+    shutdown: false
+    ip_address: 172.31.255.7/31
+  Ethernet3:
+    peer: BC-CORE-PAN-FW-01
+    peer_interface: Eth2
+    peer_type: core_firewall
+    description: BC-CORE-PAN-FW-01_Eth2
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 1000-1010
+    channel_group:
+      id: 3
+      mode: active
+  Ethernet4:
+    peer: BC-CORE-PAN-FW-01
+    peer_interface: Eth4
+    peer_type: core_firewall
+    description: BC-CORE-PAN-FW-01_Eth4
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 2000
+    channel_group:
+      id: 4
+      mode: active
+  Ethernet5:
+    peer: BC-CORE-PAN-FW-02
+    peer_interface: Eth2
+    peer_type: core_firewall
+    description: BC-CORE-PAN-FW-02_Eth2
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 1000-1010
+    channel_group:
+      id: 5
+      mode: active
+  Ethernet6:
+    peer: BC-CORE-PAN-FW-02
+    peer_interface: Eth4
+    peer_type: core_firewall
+    description: BC-CORE-PAN-FW-02_Eth4
+    type: switched
+    shutdown: false
+    mode: trunk
+    vlans: 2000
+    channel_group:
+      id: 6
+      mode: active
+mlag_configuration:
+  domain_id: BC_BORDER_RACK1
+  local_interface: Vlan4094
+  peer_address: 10.255.252.0
+  peer_link: Port-Channel12
+  reload_delay_mlag: 300
+  reload_delay_non_mlag: 330
+route_maps:
+  RM-MLAG-PEER-IN:
+    sequence_numbers:
+      10:
+        type: permit
+        set:
+        - origin incomplete
+        description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+  RM-CONN-2-BGP:
+    sequence_numbers:
+      10:
+        type: permit
+        match:
+        - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+loopback_interfaces:
+  Loopback0:
+    description: EVPN_Overlay_Peering
+    shutdown: false
+    ip_address: 10.200.1.2/32
+  Loopback1:
+    description: VTEP_VXLAN_Tunnel_Source
+    shutdown: false
+    ip_address: 192.168.254.1/32
+prefix_lists:
+  PL-LOOPBACKS-EVPN-OVERLAY:
+    sequence_numbers:
+      10:
+        action: permit 10.200.1.0/24 eq 32
+      20:
+        action: permit 192.168.254.0/24 eq 32
+router_bfd:
+  multihop:
+    interval: 1200
+    min_rx: 1200
+    multiplier: 3
+ip_igmp_snooping:
+  globally_enabled: true
+ip_virtual_router_mac_address: 00:dc:00:00:00:0a
+vxlan_interface:
+  Vxlan1:
+    description: BC-BORDERLEAF2_VTEP
+    vxlan:
+      source_interface: Loopback1
+      virtual_router_encapsulation_mac_address: mlag-system-id
+      udp_port: 4789
+      vlans:
+        160:
+          vni: 50160
+        161:
+          vni: 10161

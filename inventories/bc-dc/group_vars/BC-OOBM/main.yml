@@ -1,0 +1,48 @@
+type: l2leaf
+
+mgmt_interface_vrf: default
+mgmt_interface: vlan100
+
+# DNS servers
+name_server:
+  source:
+    vrf: default
+  nodes:
+    - 172.20.20.6
+
+# NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Management VRF
+ntp:
+  servers:
+    - name: time.google.com
+      iburst: true
+      vrf: default
+
+l2leaf:
+  defaults:
+    platform: vEOS-LAB
+    #uplink_interfaces: [Ethernet1, Ethernet2]
+    mlag_peer_ipv4_pool: 10.255.252.0/24
+    mlag_peer_l3_ipv4_pool: 10.255.251.0/24
+    mlag_interfaces: [Ethernet16, Ethernet17]
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    raw_eos_cli: |
+      vlan 100
+  node_groups:
+    BC_OOBM:
+      nodes:
+        BC-OOBM1:
+          id: 1
+          mgmt_ip: 172.20.21.13/23
+          #uplink_switch_interfaces: [Ethernet7, Ethernet7]
+        BC-OOBM2:
+          id: 2
+          mgmt_ip: 172.20.21.14/23
+          #uplink_switch_interfaces: [Ethernet7, Ethernet7]
+
+#Endpoint keys/info
+connected_endpoints_keys:
+  bc_oobm_devices:
+    type: oobm_devices
+  bc_oobm_firewalls:
+    type: oobm_firewall

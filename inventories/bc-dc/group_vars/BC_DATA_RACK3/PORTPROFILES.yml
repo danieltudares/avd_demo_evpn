@@ -1,0 +1,16 @@
+---
+#define a port profile to be inherited in the endpoint configuration ie default vlans or common configs that are applied to muliple ports in a single "profile"
+port_profiles:
+#define profile for server
+  data_server_tenant_blue_zoneA:
+    mode: trunk
+    native_vlan: "110"
+    vlans: "110,111,112"
+    raw_eos_cli: |
+      no snmp trap link-change
+  data_server_tenant_blue_zoneB:
+    mode: trunk
+    native_vlan: "120"
+    vlans: "120,121"
+    raw_eos_cli: |
+      no snmp trap link-change

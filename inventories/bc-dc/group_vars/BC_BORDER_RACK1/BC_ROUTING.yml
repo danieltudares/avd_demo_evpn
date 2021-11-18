@@ -1,0 +1,20 @@
+---
+
+# prefix list for default route
+prefix_lists:
+  default-route:
+    sequence_numbers:
+      10:
+        action: "permit 0.0.0.0/0"
+
+# route map for default route
+route_maps:
+  set-attrib:
+    sequence_numbers:
+      10:
+        type: permit
+        description: Route_Map_to_Firewall
+        match:
+          - "match ip address prefix-list default-route"
+        set:
+          - "set as-path match all replacement auto"

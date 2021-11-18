@@ -1,0 +1,27 @@
+#Firewall Connectivity Definintions for BC DC
+
+bc_oobm_firewalls:
+
+  BC-CORE-PAN-FW-OOBM-01:
+    rack: BORDER_RACK_1
+    adapters:
+      - endpoint_ports: [ Eth10, Eth11 ]
+        switch_ports: [ Ethernet1, Ethernet1 ]
+        switches: [ BC-OOBM1, BC-OOBM2 ]
+        profile: oobm_if
+        port_channel:
+          state: present
+          description: PortChannel-oobm-FW01
+          mode: active
+
+  BC-CORE-PAN-FW-OOBM-02:
+    rack: BORDER_RACK_1
+    adapters:
+      - endpoint_ports: [ Eth1, Eth2 ]
+        switch_ports: [ Ethernet2, Ethernet2 ]
+        switches: [ BC-OOBM1, BC-OOBM2 ]
+        profile: oobm_if
+        port_channel:
+          state: present
+          description: PortChannel-oobm-FW02
+          mode: active

@@ -1,0 +1,31 @@
+Interface                      Status         Protocol           Description
+Et1                            up             up                 P2P_LINK_TO_BC-SPINE1_Ethernet1
+Et2                            up             up                 P2P_LINK_TO_BC-SPINE2_Ethernet1
+Et3                            up             up                 BC-CORE-PAN-FW-01_Eth1
+Et4                            up             up                 BC-CORE-PAN-FW-01_Eth3
+Et5                            up             up                 BC-CORE-PAN-FW-02_Eth1
+Et6                            up             up                 BC-CORE-PAN-FW-02_Eth3
+Et7                            up             up                 
+Et8                            up             up                 
+Et9                            up             up                 
+Et10                           up             up                 
+Et11                           up             up                 
+Et12                           up             up                 MLAG_PEER_BC-BORDERLEAF2_Ethernet12
+Et13                           up             up                 MLAG_PEER_BC-BORDERLEAF2_Ethernet13
+Lo0                            up             up                 EVPN_Overlay_Peering
+Lo1                            up             up                 VTEP_VXLAN_Tunnel_Source
+Ma1                            up             up                 oob_management
+Po3                            down           lowerlayerdown     BC-CORE-PAN-FW-01_PortChannel-inside
+Po4                            down           lowerlayerdown     BC-CORE-PAN-FW-01_PortChannel-outside
+Po5                            down           lowerlayerdown     BC-CORE-PAN-FW-02_PortChannel-inside
+Po6                            down           lowerlayerdown     BC-CORE-PAN-FW-02_PortChannel-outside
+Po12                           up             up                 MLAG_PEER_BC-BORDERLEAF2_Po12
+Vl1194                         up             up                 
+Vl1195                         up             up                 
+Vl1196                         up             up                 
+Vl1197                         up             up                 
+Vl1198                         up             up                 
+Vl1199                         up             up                 
+Vl4093                         up             up                 MLAG_PEER_L3_PEERING
+Vl4094                         up             up                 MLAG_PEER
+Vx1                            up             up                 BC-BORDERLEAF1_VTEP
